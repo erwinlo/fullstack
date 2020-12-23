@@ -24,7 +24,7 @@ app.use(cors()); //Add THIS LINE - 3
 app.use('/', indexRouter);
 app.use('/banks', banksRouter);
 app.use('/investments', investRouter);
-app.use('transactions', tranRouter);
+app.use('/transactions', tranRouter);
 app.use('/mypage', mypageRouter); //Add THIS LINE - 4
 
 // catch 404 and forward to error handler
