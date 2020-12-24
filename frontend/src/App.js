@@ -2,9 +2,11 @@ import React from 'react';
 import './App.css';
 import * as d3 from 'd3';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Spinner from 'react-bootstrap/Spinner'
+import BankAccounts from './component/BankAccounts'
 
 
 class App extends React.Component {
@@ -128,44 +130,15 @@ class App extends React.Component {
                         <h6>by Erwin Lo, Yeo Theng Hee and Lin Zhenyao</h6>
                 </Jumbotron>
                 <Container>
-                    <div className='barGraph center'>
+                    <Row className='barGraph center'>
                         {this.state.isLoading ?
                             <span><Spinner as='span' animation='grow' size='sm' />Loading...</span>
                             :
                             <svg ref={node => this.node = node} />}
-                    </div>
-                    <div>
-                        <Table striped bordered hover className='center'>
-                            <thead>
-                                <tr>
-                                    <td>Bank</td>
-                                    <td>Account Type</td>
-                                    <td>Account Number</td>
-                                    <td>Balance</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.isLoading ?
-                                    <tr>
-                                        <td colspan='3'>
-                                            <span><Spinner as='span' animation='grow' size='sm' />Loading...</span>
-                                        </td>
-                                    </tr>
-                                    :
-                                    (this.state.data).map((item) => {
-                                        return (
-                                            <tr key={item.account_number}>
-                                                <td> {item.short_name} </td>
-                                                <td> {item.account_type}  </td>
-                                                <td> {item.account_number}  </td>
-                                                <td> {item.balance}  </td>
-                                            </tr>
-                                        )
-                                    }
-                                    )}
-                            </tbody>
-                        </Table>
-                    </div>
+                    </Row>
+                    <Row>
+                        <BankAccounts id='1' />
+                    </Row>
                 </Container>
             </Container>
         );
