@@ -27,7 +27,7 @@ body {
 
 .table {
     max-width: 600px;
-    text-align: center;
+    /* text-align: center; */
 }
 .center {
     margin-top: 50px;

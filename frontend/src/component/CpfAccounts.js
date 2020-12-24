@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
 
-export default class BankAccounts extends React.Component {
+export default class CpfAccounts extends React.Component {
     constructor(props) {
         super(props);
 
@@ -15,7 +15,10 @@ export default class BankAccounts extends React.Component {
 
     transformData(data) {
         data.forEach((d, i, arr) => {
-            arr[i].account_type = d.account_type.replaceAll('_', ' '); // replace underscore with space
+            arr[i].account_type = d.account_type.replace('cpf_', ' ') // remove cpf_
+            .replace('sa', 'Special Account')
+            .replace('oa', 'Ordinary Account')
+            .replace('ma', 'Medisave Account');
         });
 
         return data;
@@ -24,7 +27,7 @@ export default class BankAccounts extends React.Component {
     callAPIServer() {
         // when component mounted, start a GET request
         // to specified URL
-        fetch('http://localhost:7000/banks/' + this.props.id)
+        fetch('http://localhost:7000/cpf/' + this.props.id)
             // when we get a response map the body to json
             .then(response => response.json())
             // and update the state data to said json
@@ -45,14 +48,12 @@ export default class BankAccounts extends React.Component {
     render() {
         return (
             <Card border="light" style={{ width: '30rem' }}>
-                <Card.Header as="h3">Bank Accounts</Card.Header>
+                <Card.Header as="h3">CPF Accounts</Card.Header>
                 <Card.Body>
                     <Table striped borderless hover>
                         <thead>
                             <tr>
-                                <td>Bank</td>
                                 <td>Account Type</td>
-                                <td>Account Number</td>
                                 <td>Balance</td>
                             </tr>
                         </thead>
@@ -67,9 +68,7 @@ export default class BankAccounts extends React.Component {
                                 (this.state.data).map((item) => {
                                     return (
                                         <tr key={item.account_number}>
-                                            <td> {item.short_name} </td>
                                             <td> {item.account_type}  </td>
-                                            <td> {item.account_number}  </td>
                                             <td> {item.balance}  </td>
                                         </tr>
                                     )
