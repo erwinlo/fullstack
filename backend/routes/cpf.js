@@ -12,10 +12,8 @@ router = express.Router();
 
 router.get('/:userId', (req, res) => {
     connection.query(
-        `SELECT insti.short_name, acc.account_type, acc.account_number, acc.balance 
+        `SELECT acc.account_type, acc.account_number, acc.balance 
                FROM accounts AS acc 
-               LEFT JOIN institutions AS insti 
-               ON acc.institution_id = insti.institution_id 
                WHERE (acc.user_id = ${req.params.userId}) 
                AND (acc.account_type IN ('cpf_oa','cpf_sa','cpf_ma'))`,
         (errors, results) => {
