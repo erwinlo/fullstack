@@ -7,8 +7,8 @@ import { Container, Row, Col, Jumbotron, Spinner } from 'react-bootstrap';
 // import Table from 'react-bootstrap/Table';
 // import Jumbotron from 'react-bootstrap/Jumbotron';
 // import Spinner from 'react-bootstrap/Spinner'
-import BankAccounts from './component/BankAccounts'
-import CpfAccounts from './component/CpfAccounts'
+import BankAccounts from './components/BankAccounts'
+import CpfAccounts from './components/CpfAccounts'
 
 
 class App extends React.Component {
@@ -132,19 +132,22 @@ class App extends React.Component {
                     <h6>by Erwin Lo, Yeo Theng Hee and Lin Zhenyao</h6>
                 </Jumbotron>
                 <Container>
-                    <Row className='barGraph center'>
-                        <Col>
+                    <Row>
+                        <Col className="d-flex justify-content-center">
                             {this.state.isLoading ?
                                 <span><Spinner as='span' animation='grow' size='sm' />Loading...</span>
                                 :
                                 <svg ref={node => this.node = node} />}
                         </Col>
                     </Row>
+
                     <Row>
-                        <Col>
+                        <Col className="d-flex justify-content-center">
                             <BankAccounts id='1' />
                         </Col>
-                        <Col>
+                    </Row>
+                    <Row>
+                        <Col className="d-flex justify-content-center">
                             <CpfAccounts id='1' />
                         </Col>
                     </Row>
