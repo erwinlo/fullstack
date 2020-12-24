@@ -1,10 +1,14 @@
 import React from 'react';
 import './App.css';
 import * as d3 from 'd3';
-import Container from 'react-bootstrap/Container';
-import Table from 'react-bootstrap/Table';
-import Jumbotron from 'react-bootstrap/Jumbotron';
-import Spinner from 'react-bootstrap/Spinner'
+import { Container, Row, Col, Jumbotron, Spinner } from 'react-bootstrap';
+// import Row from 'react-bootstrap/Row'
+// import Col from 'react-bootstrap/Col'
+// import Table from 'react-bootstrap/Table';
+// import Jumbotron from 'react-bootstrap/Jumbotron';
+// import Spinner from 'react-bootstrap/Spinner'
+import BankAccounts from './component/BankAccounts'
+import CpfAccounts from './component/CpfAccounts'
 
 
 class App extends React.Component {
@@ -21,9 +25,9 @@ class App extends React.Component {
             .then(response => response.json())
             // and update the state data to said json
             .then(data => {
-                this.setState({ 
-                    data: data, 
-                    isLoading: false 
+                this.setState({
+                    data: data,
+                    isLoading: false
                 });
                 this.drawBarChart();
             });
@@ -124,48 +128,26 @@ class App extends React.Component {
         return (
             <Container>
                 <Jumbotron>
-                        <h1>NUS Ledger</h1>
-                        <h6>by Erwin Lo, Yeo Theng Hee and Lin Zhenyao</h6>
+                    <h1>NUS Ledger</h1>
+                    <h6>by Erwin Lo, Yeo Theng Hee and Lin Zhenyao</h6>
                 </Jumbotron>
                 <Container>
-                    <div className='barGraph center'>
-                        {this.state.isLoading ?
-                            <span><Spinner as='span' animation='grow' size='sm' />Loading...</span>
-                            :
-                            <svg ref={node => this.node = node} />}
-                    </div>
-                    <div>
-                        <Table striped bordered hover className='center'>
-                            <thead>
-                                <tr>
-                                    <td>Bank</td>
-                                    <td>Account Type</td>
-                                    <td>Account Number</td>
-                                    <td>Balance</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.isLoading ?
-                                    <tr>
-                                        <td colspan='3'>
-                                            <span><Spinner as='span' animation='grow' size='sm' />Loading...</span>
-                                        </td>
-                                    </tr>
-                                    :
-                                    (this.state.data).map((item) => {
-                                        return (
-                                            <tr key={item.account_number}>
-                                                <td> {item.short_name} </td>
-                                                <td> {item.account_type}  </td>
-                                                <td> {item.account_number}  </td>
-                                                <td> {item.balance}  </td>
-                                            </tr>
-                                        )
-                                    }
-                                    )}
-                            </tbody>
-                        </Table>
-                    </div>
+                    <Row className='barGraph center'>
+                        <Col>
+                            {this.state.isLoading ?
+                                <span><Spinner as='span' animation='grow' size='sm' />Loading...</span>
+                                :
+                                <svg ref={node => this.node = node} />}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <BankAccounts id='1' />
+                        </Col>
+                        <Col>
+                            <CpfAccounts id='1' />
+                        </Col>
+                    </Row>
                 </Container>
             </Container>
         );
