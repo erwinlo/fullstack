@@ -7,6 +7,7 @@ var cors = require("cors"); //Add THIS LINE - 1
 
 var indexRouter = require('./routes/index');
 var banksRouter = require('./routes/banks');
+var cpfRouter = require('./routes/banks');
 var mypageRouter = require('./routes/mypage'); //Add THIS LINE - 2
 
 var app = express();
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors()); //Add THIS LINE - 3
 app.use('/', indexRouter);
 app.use('/banks', banksRouter);
+app.use('/cpf', cpfRouter);
 app.use('/mypage', mypageRouter); //Add THIS LINE - 4
 
 // catch 404 and forward to error handler
