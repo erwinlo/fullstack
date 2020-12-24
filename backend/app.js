@@ -7,7 +7,9 @@ var cors = require("cors"); //Add THIS LINE - 1
 
 var indexRouter = require('./routes/index');
 var banksRouter = require('./routes/banks');
-var cpfRouter = require('./routes/banks');
+var cpfRouter = require('./routes/cpf');
+var investRouter = require('./routes/investments');
+var tranRouter = require('./routes/transactions');
 var mypageRouter = require('./routes/mypage'); //Add THIS LINE - 2
 
 var app = express();
@@ -23,6 +25,8 @@ app.use(cors()); //Add THIS LINE - 3
 app.use('/', indexRouter);
 app.use('/banks', banksRouter);
 app.use('/cpf', cpfRouter);
+app.use('/investments', investRouter);
+app.use('/transactions', tranRouter);
 app.use('/mypage', mypageRouter); //Add THIS LINE - 4
 
 // catch 404 and forward to error handler
