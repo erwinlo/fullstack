@@ -132,7 +132,7 @@ class App extends React.Component {
                     <h6>by Erwin Lo, Yeo Theng Hee and Lin Zhenyao</h6>
                 </Jumbotron>
                 <Container>
-                    <Row>
+                    <Row className="row-dashboard">
                         <Col className="d-flex justify-content-center">
                             {this.state.isLoading ?
                                 <span><Spinner as='span' animation='grow' size='sm' />Loading...</span>
@@ -141,12 +141,12 @@ class App extends React.Component {
                         </Col>
                     </Row>
 
-                    <Row>
+                    <Row className="row-dashboard">
                         <Col className="d-flex justify-content-center">
                             <BankAccounts id='1' />
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className="row-dashboard">
                         <Col className="d-flex justify-content-center">
                             <CpfAccounts id='1' />
                         </Col>
