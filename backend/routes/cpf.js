@@ -1,5 +1,7 @@
 /*
-Fill in code to do GET, POST, PUT, DELETE for transactions table here.
+routes file for getting cpf accounts for user_id
+
+user_id is sent through web URI
 */
 
 const connection = require('./database');
@@ -10,10 +12,10 @@ router = express.Router();
 
 router.get('/:userId', (req, res) => {
     connection.query(
-        `SELECT transactions.*, acc.account_type, acc.account_number, acc.balance 
-               FROM transactions LEFT JOIN accounts AS acc 
-               ON transactions.account_id = acc.account_id 
-               WHERE (acc.user_id = ${req.params.userId})`,
+        `SELECT acc.account_type, acc.account_number, acc.balance 
+               FROM accounts AS acc 
+               WHERE (acc.user_id = ${req.params.userId}) 
+               AND (acc.account_type IN ('cpf_oa','cpf_sa','cpf_ma'))`,
         (errors, results) => {
             if (errors) {
                 res.status(400).send('Error occured while sending request.');
