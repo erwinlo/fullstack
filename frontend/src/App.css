@@ -45,11 +45,6 @@ body {
     margin-right: auto;
 }
 
-.table thead {
-    font-weight: bold;
-    /* background-color: #d6eaff; */
-}
-
 .balanceText {
      font-family: sans-serif;
      font-size: 11px;
@@ -61,4 +56,16 @@ body {
      font-family: sans-serif;
      font-size: 12px;
      text-anchor: middle;
+}
+.card-header {
+    padding: 1rem 3rem;
+}
+.plusButton {
+    font-size: 25px;
+}
+.card-header .btn-link {
+    color: black;
+}
+.card-header .btn-link:focus {
+    box-shadow: none;
 }

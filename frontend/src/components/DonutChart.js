@@ -5,6 +5,11 @@ import { PieChart } from 'react-minimal-pie-chart';
 export default function DonutChart(props) {
     const [hovered, setHovered] = useState(null);
     const data = [...props.data];
+    // Create our money formatter.
+    const money = new Intl.NumberFormat('en-SG', {
+        style: 'currency',
+        currency: 'SGD'
+    });
 
     return (
         <div data-tip="" data-for="chart">
@@ -30,7 +35,7 @@ export default function DonutChart(props) {
                 id="chart"
                 getContent={() =>
                     typeof hovered === 'number' ?
-                        (data[hovered].short_name + ' ' + data[hovered].account_type + ': $ ' + data[hovered].value)
+                        (data[hovered].short_name + ' ' + data[hovered].account_type + ': ' + money.format(data[hovered].value))
                         : null
                 }
             />

@@ -3,8 +3,10 @@ import { Container, Row, Col, Table } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
 import DonutChart from './DonutChart';
+import AddAccount from './AddAccount'
 
 export default class BankAccounts extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -53,23 +55,32 @@ export default class BankAccounts extends React.Component {
     }
 
     render() {
+        // Create our money formatter.
+        const money = new Intl.NumberFormat('en-SG', {
+            style: 'currency',
+            currency: 'SGD'
+        });
+
         return (
             <Card border="light">
-                <Card.Header as="h3">Bank Accounts</Card.Header>
+                <Card.Header className="d-flex align-items-center">
+                    <h3 className="mr-auto">Bank Accounts</h3>
+                    <AddAccount />
+                </Card.Header>
                 <Card.Body>
                     <Container>
-                        <Row className="row-card">
+                        <Row className="row-card d-flex align-items-center justify-content-center">
                             <Col sm={3} md={4}>
-                                <DonutChart data={this.state.data} />
+                                <DonutChart data={this.state.data} /> 
                             </Col>
                             <Col>
                                 <Table striped borderless hover responsive>
-                                    <thead>
+                                    <thead className="font-weight-bolder">
                                         <tr>
                                             <td>Bank</td>
                                             <td>Account Type</td>
                                             <td>Account Number</td>
-                                            <td>Balance</td>
+                                            <td className="text-right">Balance</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -86,7 +97,9 @@ export default class BankAccounts extends React.Component {
                                                         <td> {item.short_name} </td>
                                                         <td className="text-capitalize"> {item.account_type}  </td>
                                                         <td> {item.account_number}  </td>
-                                                        <td className="d-flex justify-content-end"> {item.balance} </td>
+                                                        <td className="text-right">
+                                                            {money.format(item.balance)}
+                                                        </td>
                                                     </tr>
                                                 )
                                             }
@@ -98,7 +111,7 @@ export default class BankAccounts extends React.Component {
                                                 <h4>Total</h4>
                                             </td>
                                             <td>
-                                                <h4>{this.state.total}</h4>
+                                                <h4>{money.format(this.state.total)}</h4>
                                             </td>
                                         </tr>
                                     </tfoot>
