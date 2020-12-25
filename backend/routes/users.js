@@ -12,19 +12,19 @@ router = express.Router();
 module.exports = router;
 
 router.post("/users", (request, response) => {
-  if (validate.is_blank(request.body.nric)) {
+  if (validate.is_blank(request.params.nric)) {
     response.status(400).send("Error! NRIC is blank.");
-  } else if (validate.is_blank(request.body.name)) {
+  } else if (validate.is_blank(request.params.name)) {
     response.status(400).send("Error! Name is blank.");
-  } else if (validate.is_blank(request.body.email)) {
+  } else if (validate.is_blank(request.params.email)) {
     response.status(400).send("Error! Email is blank.");
-  } else if (validate.is_blank(request.body.mobile)) {
+  } else if (validate.is_blank(request.params.mobile)) {
     response.status(400).send("Error! Mobile Number is blank.");
-  } else if (validate.is_blank(request.body.password)) {
+  } else if (validate.is_blank(request.params.password)) {
     response.status(400).send("Error! Password is blank.");
   } else {
     connection.query(
-      `insert into users (nric, name, email, mobile, password) values ('${request.body.nric}','${request.body.name}','${request.body.email}','${request.body.mobile}', '${request.body.password}')`,
+      `insert into users (nric, name, email, mobile, password) values ('${request.params.nric}','${request.params.name}','${request.params.email}','${request.params.mobile}', '${request.params.password}')`,
       (errors, results) => {
         if (errors) {
           console.log(errors);
@@ -48,12 +48,12 @@ router.get("/users/all", (request, response) => {
   });
 });
 
-router.get("/users/id", (request, response) => {
-  if (validate.is_blank(request.body.id)) {
+router.get("/users/:id", (request, response) => {
+  if (validate.is_blank(request.params.id)) {
     response.status(400).send("Error! ID is blank");
   } else {
     connection.query(
-      `select * from users where user_id = ${request.body.id}`,
+      `select * from users where user_id = ${request.params.id}`,
       (errors, results) => {
         if (errors) {
           console.log(errors);
@@ -67,13 +67,13 @@ router.get("/users/id", (request, response) => {
 });
 
 router.put("/users/email", (request, response) => {
-    if (validate.is_blank(request.body.id)) {
+    if (validate.is_blank(request.params.id)) {
       response.status(400).send("Error! ID is blank.");
-    } else if (validate.is_blank(request.body.email)) {
+    } else if (validate.is_blank(request.params.email)) {
       response.status(400).send("Error! Email is blank.");
     } else {
       connection.query(
-        `update users set email = '${request.body.email}' where user_id = '${request.body.id}'`,
+        `update users set email = '${request.params.email}' where user_id = '${request.params.id}'`,
         (errors, results) => {
           if (errors) {
             console.log(errors);
@@ -87,13 +87,13 @@ router.put("/users/email", (request, response) => {
   });
 
 router.put("/users/mobile", (request, response) => {
-  if (validate.is_blank(request.body.id)) {
+  if (validate.is_blank(request.params.id)) {
     response.status(400).send("Error! ID is blank.");
-  } else if (validate.is_blank(request.body.mobile)) {
+  } else if (validate.is_blank(request.params.mobile)) {
     response.status(400).send("Error! Mobile is blank.");
   } else {
     connection.query(
-      `update users set mobile = '${request.body.mobile}' where user_id = '${request.body.id}'`,
+      `update users set mobile = '${request.params.mobile}' where user_id = '${request.params.id}'`,
       (errors, results) => {
         if (errors) {
           console.log(errors);
@@ -107,13 +107,13 @@ router.put("/users/mobile", (request, response) => {
 });
 
 router.put("/users/password", (request, response) => {
-    if (validate.is_blank(request.body.id)) {
+    if (validate.is_blank(request.params.id)) {
       response.status(400).send("Error! ID is blank.");
-    } else if (validate.is_blank(request.body.password)) {
+    } else if (validate.is_blank(request.params.password)) {
       response.status(400).send("Error! Password is blank.");
     } else {
       connection.query(
-        `update users set password = '${request.body.password}' where user_id = '${request.body.id}'`,
+        `update users set password = '${request.params.password}' where user_id = '${request.params.id}'`,
         (errors, results) => {
           if (errors) {
             console.log(errors);
@@ -127,11 +127,11 @@ router.put("/users/password", (request, response) => {
   });
 
 router.delete("/users/id", (request, response) => {
-  if (validate.is_blank(request.body.id)) {
+  if (validate.is_blank(request.params.id)) {
     response.status(400).send("Error! ID is blank");
   } else {
     connection.query(
-      `delete from users where user_id = '${request.body.id}'`,
+      `delete from users where user_id = '${request.params.id}'`,
       (errors, results) => {
         if (errors) {
           console.log(errors);
