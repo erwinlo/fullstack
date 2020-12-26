@@ -12,7 +12,7 @@ router = express.Router();
 
 router.get('/:userId', (req, res) => {
     connection.query(
-        `SELECT acc.account_id,insti.short_name, acc.account_type, acc.account_number, acc.balance 
+        `SELECT acc.account_id,acc.institution_id,insti.short_name, acc.account_type, acc.account_number, acc.balance 
                FROM accounts AS acc 
                LEFT JOIN institutions AS insti 
                ON acc.institution_id = insti.institution_id 
