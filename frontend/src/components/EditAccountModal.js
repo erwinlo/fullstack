@@ -1,17 +1,25 @@
 import React from 'react';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
 
-export default class AddAccountModal extends React.Component {
+export default class EditAccountModal extends React.Component {
     state = {
         isOpen: false,
         userId: this.props.id,
         insti_id: null,
+        ac_id: null,
         ac_type: null,
         ac_number: null,
         balance: null
     };
 
-    openModal = () => this.setState({ isOpen: true });
+    openModal = (data) => this.setState({
+        isOpen: true,
+        insti_id: data.institution_id,
+        ac_id: data.account_id,
+        ac_type: data.account_type,
+        ac_number: data.account_number,
+        balance: data.balance
+    });
     closeModal = () => this.setState({ isOpen: false });
 
     onSubmit = () => {
@@ -20,12 +28,13 @@ export default class AddAccountModal extends React.Component {
         let url = 'http://localhost:7000/accounts/';
 
         fetch(url + this.state.userId, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify({
                 insti_id: this.state.insti_id,
+                ac_id: this.state.ac_id,
                 ac_type: this.state.ac_type,
                 ac_number: this.state.ac_number,
                 balance: this.state.balance
@@ -33,7 +42,7 @@ export default class AddAccountModal extends React.Component {
         })
             .then(() => window.location.reload(false));
     }
-    
+
     render() {
         return (
             <Modal
@@ -42,7 +51,7 @@ export default class AddAccountModal extends React.Component {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Account</Modal.Title>
+                    <Modal.Title>Edit Account</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -52,6 +61,7 @@ export default class AddAccountModal extends React.Component {
                             <Col>
                                 <Form.Control as="select"
                                     onChange={e => this.setState({ insti_id: e.target.value })}
+                                    value={this.state.insti_id}
                                 >
                                     <option>Choose...</option>
                                     <option value="1">DBS</option>
@@ -71,6 +81,7 @@ export default class AddAccountModal extends React.Component {
                             <Col>
                                 <Form.Control as="select"
                                     onChange={e => this.setState({ ac_type: e.target.value })}
+                                    value={this.state.ac_type}
                                 >
                                     <option>Choose...</option>
                                     <option value="savings">Savings</option>
@@ -104,7 +115,7 @@ export default class AddAccountModal extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={this.onSubmit}>
-                        Add Account
+                        Save
                         </Button>
 
                     <Button variant="secondary" onClick={this.closeModal}>

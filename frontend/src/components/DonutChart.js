@@ -40,7 +40,9 @@ export default function DonutChart(props) {
                 id="chart"
                 getContent={() =>
                     typeof hovered === 'number' ?
-                        (data[hovered].short_name + ' ' + data[hovered].account_type + ': ' + money.format(data[hovered].value))
+                        (data[hovered].short_name + ' ' 
+                        + data[hovered].account_type.replace('_',' ') + ': ' 
+                        + money.format(data[hovered].value))
                         : null
                 }
             />
