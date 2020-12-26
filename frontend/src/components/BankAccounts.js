@@ -1,10 +1,11 @@
 import React from 'react';
-import { Container, Row, Col, Table } from 'react-bootstrap';
+import { Container, Row, Col, Table, ButtonGroup, Button } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
 import DonutChart from './DonutChart';
 
 export default class BankAccounts extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -16,13 +17,11 @@ export default class BankAccounts extends React.Component {
     }
 
     transformData(data) {
-        const color = ['#4cd964', '#007aff', '#ff3b30', '#ffcc00', '#ff9500', '#5856d6', '#ff2d55'];
         let total = 0;
 
         data.forEach((d, i, arr) => {
             arr[i].account_type = d.account_type.replaceAll('_', ' '); // replace underscore with space
             arr[i].value = d.balance;
-            arr[i].color = color[i];
 
             total += d.balance;
         });
@@ -53,23 +52,34 @@ export default class BankAccounts extends React.Component {
     }
 
     render() {
+        // Create our money formatter.
+        const money = new Intl.NumberFormat('en-SG', {
+            style: 'currency',
+            currency: 'SGD'
+        });
+
         return (
             <Card border="light">
-                <Card.Header as="h3">Bank Accounts</Card.Header>
+                <Card.Header className="d-flex align-items-center">
+                    <h3 className="mr-auto">Bank Accounts</h3>
+                    <Button variant="link" className="fas fa-plus plusButton btn-card"
+                    onClick={this.props.openModal} />
+                </Card.Header>
                 <Card.Body>
                     <Container>
-                        <Row className="row-card">
+                        <Row className="row-card d-flex align-items-center justify-content-center">
                             <Col sm={3} md={4}>
                                 <DonutChart data={this.state.data} />
                             </Col>
                             <Col>
                                 <Table striped borderless hover responsive>
-                                    <thead>
+                                    <thead className="font-weight-bolder">
                                         <tr>
                                             <td>Bank</td>
                                             <td>Account Type</td>
                                             <td>Account Number</td>
-                                            <td>Balance</td>
+                                            <td className="text-right">Balance</td>
+                                            <td></td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,11 +92,19 @@ export default class BankAccounts extends React.Component {
                                             :
                                             (this.state.data).map((item) => {
                                                 return (
-                                                    <tr key={item.account_number}>
+                                                    <tr key={item.account_id}>
                                                         <td> {item.short_name} </td>
                                                         <td className="text-capitalize"> {item.account_type}  </td>
                                                         <td> {item.account_number}  </td>
-                                                        <td className="d-flex justify-content-end"> {item.balance} </td>
+                                                        <td className="text-right">
+                                                            {money.format(item.balance)}
+                                                        </td>
+                                                        <td className="pl-0 pr-0">
+                                                            <ButtonGroup>
+                                                                <Button variant="link" className='fas fa-pencil-alt btn-card btn-row' />
+                                                                <Button variant="link" className='far fa-trash-alt btn-card btn-row' />
+                                                            </ButtonGroup>
+                                                        </td>
                                                     </tr>
                                                 )
                                             }
@@ -98,7 +116,7 @@ export default class BankAccounts extends React.Component {
                                                 <h4>Total</h4>
                                             </td>
                                             <td>
-                                                <h4>{this.state.total}</h4>
+                                                <h4>{money.format(this.state.total)}</h4>
                                             </td>
                                         </tr>
                                     </tfoot>
