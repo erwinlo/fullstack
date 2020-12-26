@@ -9,12 +9,18 @@ import { Container, Row, Col, Jumbotron, Spinner } from 'react-bootstrap';
 // import Spinner from 'react-bootstrap/Spinner'
 import BankAccounts from './components/BankAccounts'
 import CpfAccounts from './components/CpfAccounts'
+import AddAccountModal from './components/AddAccountModal';
 
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: [], isLoading: true };
+        this.state = {
+            data: [],
+            isLoading: true
+        };
+        this.bankAccounts = React.createRef();
+        this.addAccountModal = React.createRef();
     }
 
     callAPIServer() {
@@ -126,10 +132,16 @@ class App extends React.Component {
 
     render() {
         return (
-            <Container>
+            <>
                 <Jumbotron>
-                    <h1>NUS Ledger</h1>
-                    <h6>by Erwin Lo, Yeo Theng Hee and Lin Zhenyao</h6>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <h1>NUS Ledger</h1>
+                                <h6>by Erwin Lo, Yeo Theng Hee and Lin Zhenyao</h6>
+                            </Col>
+                        </Row>
+                    </Container>
                 </Jumbotron>
                 <Container>
                     <Row className="row-dashboard">
@@ -142,8 +154,11 @@ class App extends React.Component {
                     </Row>
 
                     <Row className="row-dashboard">
+                        <AddAccountModal ref={this.addAccountModal} />
                         <Col className="d-flex justify-content-center">
-                            <BankAccounts id='1' />
+                            <BankAccounts id='1' ref={this.bankAccounts}
+                                openModal={() => this.addAccountModal.current.openModal()}
+                            />
                         </Col>
                     </Row>
                     <Row className="row-dashboard">
@@ -152,7 +167,7 @@ class App extends React.Component {
                         </Col>
                     </Row>
                 </Container>
-            </Container>
+            </>
         );
     }
 }

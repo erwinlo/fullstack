@@ -10,6 +10,11 @@ export default function DonutChart(props) {
         style: 'currency',
         currency: 'SGD'
     });
+    
+    const color = ['#4cd964', '#007aff', '#ff3b30', '#ffcc00', '#ff9500', '#5856d6', '#ff2d55', '#E040FB'];
+    data.forEach((d, i, arr) => {        
+        arr[i].color = color[i];
+    });
 
     return (
         <div data-tip="" data-for="chart">

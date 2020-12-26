@@ -3,9 +3,13 @@ body {
 }
 
 .jumbotron {
-    background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);
-    padding: 70px 30px 70px 30px;
+    /* background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);
+    background-repeat: no-repeat; */
+    background-image: linear-gradient(to right,#007aff, #E1F5FE);
+    padding: 80px 30px 80px 30px;
+    margin: 0px;
     color: floralwhite;
+    border-radius: 0;
 }
 
 .row-dashboard {
@@ -63,9 +67,21 @@ body {
 .plusButton {
     font-size: 25px;
 }
-.card-header .btn-link {
-    color: black;
+.btn-card {
+    color:#616161;
+    padding: 0px 3px;
 }
-.card-header .btn-link:focus {
+.btn-card:hover {
+    text-decoration: none;
+    color: #212121;
+}
+.btn-card:focus {
+    text-decoration: none;
     box-shadow: none;
+}
+.btn-row {
+    opacity: 0;
+}
+tr:hover .btn-row {
+    opacity: 100;
 }
