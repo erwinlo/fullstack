@@ -34,7 +34,7 @@ router.post('/:userId', (req, res) => {
         `INSERT into accounts 
         (institution_id, user_id, account_number, account_type, balance, creation_date, updated_time) 
         values (${req.body.insti_id}, ${req.params.userId}, '${req.body.ac_number}',
-        '${req.body.ac_type}', ${req.body.balance}, '${req.body.date}', NOW())`,
+        '${req.body.ac_type}', ${req.body.balance}, NOW(), NOW())`,
         (errors, results) => {
             if (errors) {
                 //res.status(400).send('Error occured while sending request.');

@@ -3,13 +3,17 @@ body {
 }
 
 .jumbotron {
-    background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);
-    padding: 70px 30px 70px 30px;
+    /* background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);
+    background-repeat: no-repeat; */
+    background-image: linear-gradient(to right,#007aff, #E1F5FE);
+    padding: 80px 30px 80px 30px;
+    margin: 0px;
     color: floralwhite;
+    border-radius: 0;
 }
 
-.row {
-    padding: 50px 0 50px 0;
+.row-dashboard {
+    padding: 50px 0;
 }
 
 .row-card {
@@ -45,11 +49,6 @@ body {
     margin-right: auto;
 }
 
-.table thead {
-    font-weight: bold;
-    /* background-color: #d6eaff; */
-}
-
 .balanceText {
      font-family: sans-serif;
      font-size: 11px;
@@ -61,4 +60,28 @@ body {
      font-family: sans-serif;
      font-size: 12px;
      text-anchor: middle;
+}
+.card-header {
+    padding: 1rem 3rem;
+}
+.plusButton {
+    font-size: 25px;
+}
+.btn-card {
+    color:#616161;
+    padding: 0px 3px;
+}
+.btn-card:hover {
+    text-decoration: none;
+    color: #212121;
+}
+.btn-card:focus {
+    text-decoration: none;
+    box-shadow: none;
+}
+.btn-row {
+    opacity: 0;
+}
+tr:hover .btn-row {
+    opacity: 100;
 }
