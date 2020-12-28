@@ -12,10 +12,10 @@ router = express.Router();
 
 router.get('/:userId', (req, res) => {
     connection.query(
-        `SELECT acc.account_type, acc.account_number, acc.balance 
-               FROM accounts AS acc 
-               WHERE (acc.user_id = ${req.params.userId}) 
-               AND (acc.account_type IN ('cpf_oa','cpf_sa','cpf_ma'))`,
+        `SELECT account_id, institution_id, 'CPF' AS short_name, account_type, account_number, balance 
+               FROM accounts
+               WHERE (user_id = ${req.params.userId}) 
+               AND (institution_id = 11)`,
         (errors, results) => {
             if (errors) {
                 res.status(400).send('Error occured while sending request.');
