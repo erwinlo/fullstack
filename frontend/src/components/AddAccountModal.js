@@ -5,44 +5,89 @@ export default class AddAccountModal extends React.Component {
      state = {
           isOpen: false,
           userId: this.props.id,
-          insti_id: null,
-          ac_type: null,
+          insti_id: '0',
+          ac_type: '0',
           ac_number: null,
-          balance: null
+          balance: null,
+          instiIdError: '',
+          accTypeError: '',
+          accNumberError: '',
+          balanceError: ''
      };
 
      openModal = () => this.setState({ isOpen: true });
      closeModal = () => this.setState({ isOpen: false });
 
      onSubmit = () => {
-          this.closeModal();
+          if (this.handleValidation() === 0) {
 
-          let url = 'http://localhost:7000/accounts/';
+               this.closeModal();
 
-          fetch(url + this.state.userId, {
-               method: 'POST',
-               headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-               },
-               body: JSON.stringify({
-                    insti_id: this.state.insti_id,
-                    ac_type: this.state.ac_type,
-                    ac_number: this.state.ac_number,
-                    balance: this.state.balance
+               let url = 'http://localhost:7000/accounts/';
+
+               fetch(url + this.state.userId, {
+                    method: 'POST',
+                    headers: {
+                         'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                         insti_id: this.state.insti_id,
+                         ac_type: this.state.ac_type,
+                         ac_number: this.state.ac_number,
+                         balance: this.state.balance
+                    })
                })
-          })
-               .then(() => this.props.reload());
+                    .then(() => this.props.reload());
 
-          this.reset();
+               this.reset();
+          }
      }
 
      reset() { // reset all state values
           this.setState({
-               insti_id: null,
-               ac_type: null,
+               insti_id: '0',
+               ac_type: '0',
                ac_number: null,
                balance: null
           });
+     }
+
+     handleValidation() {
+          // reset all error messages
+          this.setState({
+               instiIdError: '',
+               accTypeError: '',
+               accNumberError: '',
+               balanceError: ''
+          })
+          let error = 0;
+
+          // check institution id
+          if (this.state.insti_id === '0') {
+               error++
+               this.setState({ instiIdError: 'Please select one option' })
+          }
+
+          // check account type
+          if (this.state.ac_type === '0') {
+               error++
+               this.setState({ accTypeError: 'Please select one option' })
+          }
+
+          // check account numbers
+          if (!(/^\d+$/).test(this.state.ac_number)) {
+               error++;
+               this.setState({ accNumberError: 'Account Number must contain numbers(0-9) only' });
+          }
+
+          // check balance
+          if (!(/^\d+\.\d+$/).test(this.state.balance)) { 
+               error++;
+               this.setState({ balanceError: 'Balance must contain numbers(0-9) only' })
+          }
+
+          return error;
+
      }
 
      render() {
@@ -64,16 +109,12 @@ export default class AddAccountModal extends React.Component {
                                         <Form.Control as="select"
                                              onChange={e => this.setState({ insti_id: e.target.value })}
                                         >
-                                             <option>Choose...</option>
-                                             <option value="1">DBS</option>
-                                             <option value="2">UOB</option>
-                                             <option value="3">OCBC</option>
-                                             <option value="4">Standard Chartered</option>
-                                             <option value="5">Citi</option>
-                                             <option value="6">HSBC</option>
-                                             <option value="7">Bank of China</option>
-                                             <option value="8">Maybank</option>
+                                             <option value="0">Choose...</option>
+                                             {this.props.insti.map((i) => {
+                                                  return(<option key={i.institution_id} value={i.institution_id}>{i.full_name}</option>)
+                                             })}
                                         </Form.Control>
+                                        <span className='validation-error'>{this.state.instiIdError}</span>
                                    </Col>
                               </Form.Group>
 
@@ -83,12 +124,13 @@ export default class AddAccountModal extends React.Component {
                                         <Form.Control as="select"
                                              onChange={e => this.setState({ ac_type: e.target.value })}
                                         >
-                                             <option>Choose...</option>
+                                             <option value="0">Choose...</option>
                                              <option value="savings">Savings</option>
                                              <option value="current">Current</option>
                                              <option value="fixed_deposit">Fixed Deposit</option>
                                              <option value="investment">Investment</option>
                                         </Form.Control>
+                                        <span className='validation-error'>{this.state.accTypeError}</span>
                                    </Col>
                               </Form.Group>
 
@@ -99,6 +141,7 @@ export default class AddAccountModal extends React.Component {
                                              value={this.state.ac_number}
                                              onChange={e => this.setState({ ac_number: e.target.value })}
                                         />
+                                        <span className='validation-error'>{this.state.accNumberError}</span>
                                    </Col>
                               </Form.Group>
 
@@ -109,6 +152,7 @@ export default class AddAccountModal extends React.Component {
                                              value={this.state.balance}
                                              onChange={e => this.setState({ balance: e.target.value })}
                                         />
+                                        <span className='validation-error'>{this.state.balanceError}</span>
                                    </Col>
                               </Form.Group>
                          </Form>

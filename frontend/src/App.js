@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 import AccountsCard from './components/AccountsCard';
-import CpfAccounts from './components/CpfAccounts';
 import AddAccountModal from './components/AddAccountModal';
 import EditAccountModal from './components/EditAccountModal';
 import DeleteAccountModal from './components/DeleteAccountModal';
@@ -16,11 +15,12 @@ class App extends React.Component {
                bankAccounts: [],
                investmentAccounts: [],
                cpfAccounts: [],
+               institutions: [],
                showAddModal: false,
                showEditModal: false,
                showDelModal: false
           };
-          // this.bankAccounts = React.createRef();
+
           this.addAccModal = React.createRef();
           this.editAccModal = React.createRef();
           this.delAccModal = React.createRef();
@@ -56,8 +56,17 @@ class App extends React.Component {
           this.loadCPFAccounts();
      }
 
+     loadInstitutions() {
+          let url = 'http://localhost:7000/institutions';
+
+          fetch(url)
+               .then(response => response.json())
+               .then(data => this.setState({ institutions: data }))
+     }
+
      componentDidMount() {
           this.loadAllData();
+          this.loadInstitutions();
      }
 
      render() {
@@ -79,12 +88,14 @@ class App extends React.Component {
                               ref={this.addAccModal}
                               id={this.state.userId}
                               show={this.state.showAddModal}
+                              insti={this.state.institutions}
                               reload={() => this.loadAllData()}
                          />
                          <EditAccountModal
                               ref={this.editAccModal}
                               id={this.state.userId}
                               show={this.state.showEditModal}
+                              insti={this.state.institutions}
                               reload={() => this.loadAllData()}
                          />
                          <DeleteAccountModal
@@ -103,7 +114,7 @@ class App extends React.Component {
                                              title='Bank Accounts'
                                              data={this.state.bankAccounts}
                                              openAddAccModal={() => this.addAccModal.current.openModal()}
-                                             openEditAccModal={(data) => this.editAccModal.current.openModal(data)}
+                                             openEditAccModal={(data) => this.editAccModal.current.openModal(data, 'bank')}
                                              openDelAccModal={(data) => this.delAccModal.current.openModal(data)}
                                         />
                                    </Col>
@@ -118,7 +129,7 @@ class App extends React.Component {
                                              title='Investment Accounts'
                                              data={this.state.investmentAccounts}
                                              openAddAccModal={() => this.addAccModal.current.openModal()}
-                                             openEditAccModal={(data) => this.editAccModal.current.openModal(data)}
+                                             openEditAccModal={(data) => this.editAccModal.current.openModal(data, 'investment')}
                                              openDelAccModal={(data) => this.delAccModal.current.openModal(data)}
                                         />
                                    </Col>
@@ -132,19 +143,15 @@ class App extends React.Component {
                                              id={this.state.userId}
                                              title='CPF Accounts'
                                              data={this.state.cpfAccounts}
+                                             disableAddButton='true'
                                              openAddAccModal={() => this.addAccModal.current.openModal()}
-                                             openEditAccModal={(data) => this.editAccModal.current.openModal(data)}
+                                             openEditAccModal={(data) => this.editAccModal.current.openModal(data, 'cpf')}
                                              openDelAccModal={(data) => this.delAccModal.current.openModal(data)}
                                         />
                                    </Col>
                               </Row> :
                               <div></div>
                          }
-                         <Row className="row-dashboard">
-                              <Col className="d-flex justify-content-center">
-                                   <CpfAccounts id={this.state.userId} />
-                              </Col>
-                         </Row>
                     </Container>
                </>
           );

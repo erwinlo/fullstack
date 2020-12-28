@@ -1,59 +1,9 @@
 import React from 'react';
 import { Container, Row, Col, Table, ButtonGroup, Button } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
 import DonutChart from './DonutChart';
 
 export default class AccountsCard extends React.Component {
-
-     constructor(props) {
-          super(props);
-
-          this.state = {
-               // data: [],
-               isLoading: true,
-               // total: 0
-          }
-     }
-
-     // calculateTotal() {
-     //      let total = 0;
-
-     //      this.props.data.map((d, i, arr) => {
-     //           // arr[i].account_type = d.account_type.replaceAll('_', ' '); // replace underscore with space
-     //           // arr[i].value = d.balance;
-
-     //           total += parseFloat(d.balance)
-     //           // console.log('total =',total)
-     //      });
-
-     //      this.setState({ total: total });
-     // }
-
-     // callAPIServer() {
-     //      // when component mounted, start a GET request
-     //      // to specified URL
-     //      fetch('http://localhost:7000/banks/' + this.props.id)
-     //           // when we get a response map the body to json
-     //           .then(response => response.json())
-     //           // and update the state data to said json
-     //           .then(data => this.calculateTotal(data))
-     //           .then(data => {
-     //                this.setState({
-     //                     data: data,
-     //                     isLoading: false
-     //                });
-     //           });
-     // }
-
-     componentDidUpdate() {
-
-     }
-
-     componentDidMount() {
-          // this.callAPIServer();
-          this.setState({ isLoading: false })
-     }
 
      render() {
           // Create our money formatter.
@@ -69,8 +19,11 @@ export default class AccountsCard extends React.Component {
                <Card border='light'>
                     <Card.Header className='d-flex align-items-center'>
                          <h3 className='mr-auto'>{this.props.title}</h3>
-                         <Button variant='link' className='fas fa-plus plusButton btn-card'
-                              onClick={this.props.openAddAccModal} />
+                         {(this.props.disableAddButton) ?
+                              <span></span> :
+                              <Button variant='link' className='fas fa-plus plusButton btn-card'
+                                   onClick={this.props.openAddAccModal} />
+                         }
                     </Card.Header>
                     <Card.Body>
                          <Container>
@@ -90,13 +43,7 @@ export default class AccountsCard extends React.Component {
                                                   </tr>
                                              </thead>
                                              <tbody>
-                                                  {this.state.isLoading ?
-                                                       <tr>
-                                                            <td colspan='3'>
-                                                                 <span><Spinner as='span' animation='grow' size='sm' />Loading...</span>
-                                                            </td>
-                                                       </tr>
-                                                       :
+                                                  {
                                                        (this.props.data).map((item, index) => {
                                                             return (
                                                                  <tr key={item.account_id}>
@@ -120,12 +67,12 @@ export default class AccountsCard extends React.Component {
                                                                       </td>
                                                                  </tr>
                                                             )
-                                                       }
-                                                       )}
+                                                       })
+                                                  }
                                              </tbody>
                                              <tfoot>
                                                   <tr className='text-right'>
-                                                       <td colspan='3'>
+                                                       <td colSpan='3'>
                                                             <h4>Total</h4>
                                                        </td>
                                                        <td>
