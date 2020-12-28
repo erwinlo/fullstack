@@ -23,7 +23,7 @@ export default class DeleteAccountModal extends React.Component {
             },
             body: JSON.stringify({ ac_id: this.state.data.account_id })
         })
-            .then(() => window.location.reload(false));
+        .then(() => this.props.reload());
     }
 
     render() {
