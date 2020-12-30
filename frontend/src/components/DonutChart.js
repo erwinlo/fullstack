@@ -14,6 +14,7 @@ export default function DonutChart(props) {
     const color = ['#4cd964', '#007aff', '#ff3b30', '#ffcc00', '#ff9500', '#5856d6', '#ff2d55', '#E040FB'];
     data.forEach((d, i, arr) => {        
         arr[i].color = color[i];
+        arr[i].value = d.balance;
     });
 
     return (
@@ -41,7 +42,7 @@ export default function DonutChart(props) {
                 getContent={() =>
                     typeof hovered === 'number' ?
                         (data[hovered].short_name + ' ' 
-                        + data[hovered].account_type.replace('_',' ') + ': ' 
+                        + data[hovered].account_type + ': ' 
                         + money.format(data[hovered].value))
                         : null
                 }

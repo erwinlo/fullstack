@@ -85,3 +85,7 @@ body {
 tr:hover .btn-row {
     opacity: 100;
 }
+.validation-error {
+     font-size: x-small;
+     color: red;
+}
