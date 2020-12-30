@@ -13,7 +13,8 @@ router.get('/:userId', (req, res) => {
         `SELECT transactions.*, acc.account_type, acc.account_number, acc.balance 
                FROM transactions LEFT JOIN accounts AS acc 
                ON transactions.account_id = acc.account_id 
-               WHERE (acc.user_id = ${req.params.userId})`,
+               WHERE (acc.user_id = ${req.params.userId})
+               ORDER BY transactions.date DESC`,
         (errors, results) => {
             if (errors) {
                 res.status(400).send('Error occured while sending request.');
