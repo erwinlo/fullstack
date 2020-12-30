@@ -12,7 +12,6 @@ var cpfRouter = require('./routes/cpf');
 var investRouter = require('./routes/investments');
 var tranRouter = require('./routes/transactions');
 var accountsRouter = require('./routes/accounts');
-var institutionsRouter = require('./routes/institutions');
 var mypageRouter = require('./routes/mypage'); //Add THIS LINE - 2
 var usersRouter = require('./routes/users');
 
@@ -33,7 +32,6 @@ app.use('/cpf', cpfRouter);
 app.use('/investments', investRouter);
 app.use('/transactions', tranRouter);
 app.use('/accounts', accountsRouter);
-app.use('/institutions', institutionsRouter);
 app.use('/mypage', mypageRouter); //Add THIS LINE - 4
 app.use('/users',usersRouter);
 
