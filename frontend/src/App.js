@@ -5,7 +5,7 @@ import AccountsCard from './components/AccountsCard';
 import AddAccountModal from './components/AddAccountModal';
 import EditAccountModal from './components/EditAccountModal';
 import DeleteAccountModal from './components/DeleteAccountModal';
-
+import TransactionsTable from './components/TransactionsTable'
 
 class App extends React.Component {
      constructor(props) {
@@ -16,11 +16,12 @@ class App extends React.Component {
                investmentAccounts: [],
                cpfAccounts: [],
                institutions: [],
+               transactions: [],
                showAddModal: false,
                showEditModal: false,
                showDelModal: false
           };
-
+          
           this.addAccModal = React.createRef();
           this.editAccModal = React.createRef();
           this.delAccModal = React.createRef();
@@ -50,7 +51,7 @@ class App extends React.Component {
                .then(data => this.setState({ cpfAccounts: data }))
      }
 
-     loadAllData() {
+     loadAccountsData() {
           this.loadBankAccounts();
           this.loadInvestmentAccounts();
           this.loadCPFAccounts();
@@ -64,12 +65,21 @@ class App extends React.Component {
                .then(data => this.setState({ institutions: data }))
      }
 
-     componentDidMount() {
-          this.loadAllData();
-          this.loadInstitutions();
+     loadTransactions() {
+          let url = 'http://localhost:7000/transactions/';
+
+          fetch(url + this.state.userId)
+               .then(response => response.json())
+               .then(data => this.setState({ transactions: data }))
      }
 
-     render() {
+     componentDidMount() {
+          this.loadAccountsData();
+          this.loadInstitutions();
+          this.loadTransactions();
+        }
+
+     render() {          
           return (
                <>
                     <Jumbotron>
@@ -89,21 +99,27 @@ class App extends React.Component {
                               id={this.state.userId}
                               show={this.state.showAddModal}
                               insti={this.state.institutions}
-                              reload={() => this.loadAllData()}
+                              reload={() => this.loadAccountsData()}
                          />
                          <EditAccountModal
                               ref={this.editAccModal}
                               id={this.state.userId}
                               show={this.state.showEditModal}
                               insti={this.state.institutions}
-                              reload={() => this.loadAllData()}
+                              reload={() => this.loadAccountsData()}
                          />
                          <DeleteAccountModal
                               ref={this.delAccModal}
                               id={this.state.userId}
                               show={this.state.showDelModal}
-                              reload={() => this.loadAllData()}
+                              reload={() => this.loadAccountsData()}
                          />
+
+                         <Row className="row-header">
+                              <Col>
+                                   <h2>Accounts Summary</h2>
+                              </Col>
+                         </Row>
 
                          {(this.state.bankAccounts.length > 0) ?
                               <Row className="row-dashboard">
@@ -151,6 +167,23 @@ class App extends React.Component {
                                    </Col>
                               </Row> :
                               <div></div>
+                         }
+                         {(this.state.transactions.length > 0) ?
+                              <>
+                                   <Row className="row-header">
+                                        <Col>
+                                             <h2>Transactions</h2>
+                                        </Col>
+                                   </Row>
+                                   <Row className="row-dashboard">
+                                        <Col className="d-flex justify-content-center">
+                                             <TransactionsTable
+                                                  data={this.state.transactions}
+                                             />
+                                        </Col>
+                                   </Row>
+                              </>
+                              : <div></div>
                          }
                     </Container>
                </>
