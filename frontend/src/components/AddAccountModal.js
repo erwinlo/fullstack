@@ -81,7 +81,7 @@ export default class AddAccountModal extends React.Component {
           }
 
           // check balance
-          if (!(/^\d+\.\d+$/).test(this.state.balance)) { 
+          if (!(/^\d+\.?\d*$/).test(this.state.balance)) { 
                error++;
                this.setState({ balanceError: 'Balance must contain numbers(0-9) only' })
           }

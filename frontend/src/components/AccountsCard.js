@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Table, ButtonGroup, Button } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
+import { Card, Container, Row, Col, Table, ButtonGroup, Button } from 'react-bootstrap';
 import DonutChart from './DonutChart';
 
 export default class AccountsCard extends React.Component {
