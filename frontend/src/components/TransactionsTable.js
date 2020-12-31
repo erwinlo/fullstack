@@ -8,20 +8,28 @@ const TransactionsTable = (props) => {
                {
                     Header: "Date",
                     accessor: "date",
-                    Cell: props => props.value.replace('T',' ').replace(':00.000Z',''),
+               },
+               {
+                    Header: "Institution",
+                    accessor: "short_name",
+               },
+               {
+                    Header: "Account Type",
+                    accessor: "account_type",
                },
                {
                     Header: "Account Number",
                     accessor: "account_number",
                },
                {
-                    Header: "Type",
-                    accessor: "type",
+                    Header: "Credit",
+                    accessor: "credit",
+                    Cell: props => (props.value) ? money.format(props.value) : props.value,
                },
                {
-                    Header: "Amount",
-                    accessor: "amount",
-                    Cell: props => money.format(props.value),
+                    Header: "Debit",
+                    accessor: "debit",
+                    Cell: props => (props.value) ? money.format(props.value) : props.value,
                },
           ],
           []
@@ -69,48 +77,16 @@ const TransactionsTable = (props) => {
                </Card.Header>
                <Card.Body>
                     <Container>
-                         <Row>
-                              <Col>
-                                   <Pagination>
-                                        <Pagination.First onClick={() => gotoPage(0)} disabled={!canPreviousPage} />
-                                        <Pagination.Prev onClick={() => previousPage()} disabled={!canPreviousPage} />
-                                        {(pageOptions.length < 10) ?
-                                             [...Array(pageOptions.length)].map((e, i) => <Pagination.Item onClick={() => gotoPage(i)} active={(pageIndex === i)}>{i + 1}</Pagination.Item>)
-                                             : <span>
-                                             Page 
-                                             <strong>
-                                                  {pageIndex + 1} of {pageOptions.length}
-                                             </strong>
-                                        </span> }
-                                        <Pagination.Next onClick={() => nextPage()} disabled={!canNextPage} />
-                                        <Pagination.Last onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} />
-                                   </Pagination>
-                              </Col>
-                              <Col sm='4'>
-                                   <Form.Control as="select"
-                                        value={pageSize}
-                                        onChange={e => {
-                                             setPageSize(Number(e.target.value))
-                                        }}
-                                   >
-                                        {[10, 20, 30, 40, 50].map(pageSize => (
-                                             <option key={pageSize} value={pageSize}>
-                                                  Show {pageSize}
-                                             </option>
-                                        ))}
-                                   </Form.Control>
-
-                              </Col>
-                         </Row>
 
                          <Row>
                               <Col>
-                                   <Table striped bordered hover {...getTableProps()}>
+                                   <Table striped bordered hover responsive {...getTableProps()}>
                                         <thead>
                                              {headerGroups.map(headerGroup => (
                                                   <tr {...headerGroup.getHeaderGroupProps()}>
                                                        {headerGroup.headers.map(column => (
-                                                            <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                                                            <th {...column.getHeaderProps()}>{column.render('Header')}
+                                                            </th>
                                                        ))}
                                                   </tr>
                                              ))}
@@ -132,6 +108,35 @@ const TransactionsTable = (props) => {
                               </Col>
                          </Row>
 
+                         <Row>
+                              <Col>
+                                   <Pagination>
+                                        <Pagination.First onClick={() => gotoPage(0)} disabled={!canPreviousPage} />
+                                        <Pagination.Prev onClick={() => previousPage()} disabled={!canPreviousPage} />
+                                        {(pageOptions.length < 10)
+                                             ? [...Array(pageOptions.length)].map((e, i) => <Pagination.Item onClick={() => gotoPage(i)} active={(pageIndex === i)}>{i + 1}</Pagination.Item>)
+                                             : <span>Page <strong>{pageIndex + 1} of {pageOptions.length}</strong></span>
+                                        }
+                                        <Pagination.Next onClick={() => nextPage()} disabled={!canNextPage} />
+                                        <Pagination.Last onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} />
+                                   </Pagination>
+                              </Col>
+                              <Col sm='3'>
+                                   <Form.Control as="select"
+                                        value={pageSize}
+                                        onChange={e => {
+                                             setPageSize(Number(e.target.value))
+                                        }}
+                                   >
+                                        {[10, 20, 30, 40, 50].map(pageSize => (
+                                             <option key={pageSize} value={pageSize}>
+                                                  Show {pageSize}
+                                             </option>
+                                        ))}
+                                   </Form.Control>
+
+                              </Col>
+                         </Row>
                     </Container>
                </Card.Body>
           </Card>

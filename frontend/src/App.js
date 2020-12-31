@@ -21,7 +21,7 @@ class App extends React.Component {
                showEditModal: false,
                showDelModal: false
           };
-          
+
           this.addAccModal = React.createRef();
           this.editAccModal = React.createRef();
           this.delAccModal = React.createRef();
@@ -70,16 +70,28 @@ class App extends React.Component {
 
           fetch(url + this.state.userId)
                .then(response => response.json())
-               .then(data => this.setState({ transactions: data }))
+               .then(data => {
+                    data.forEach((d,i,arr) => {
+                         arr[i].date = d.date.replace('T',' ').replace(':00.000Z','');
+                         if (arr[i].type === 'credit') {
+                              arr[i].credit = d.amount;
+                              arr[i].debit = null;
+                         } else {
+                              arr[i].debit = d.amount;
+                              arr[i].credit = null;
+                         }
+                    })
+                    this.setState({ transactions: data })
+               })
      }
 
      componentDidMount() {
           this.loadAccountsData();
           this.loadInstitutions();
           this.loadTransactions();
-        }
+     }
 
-     render() {          
+     render() {
           return (
                <>
                     <Jumbotron>
