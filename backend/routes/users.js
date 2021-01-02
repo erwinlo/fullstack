@@ -54,15 +54,40 @@ router.post('/', (req, res) => {
      };
 });
 
+router.put('/:userId/email', (req, res) => {
+     const userId = req.params.userId;
+     const email = req.body.email;
+
+     if (validate.isBlank(email)) {
+          res.statusMessage = 'Email is blank.';
+          res.status(400).send('Error! Old Password is blank.'); 
+          return;
+     }
+
+     connection.query(
+          `UPDATE users SET email = ? WHERE user_id = ?`,
+          [email, userId],
+          (errors, results) => {
+               if (errors) {
+                    console.log(errors);
+                    res.status(400).send('Error ocurred while sending request.');
+               } else {
+                    res.send('Email updated successfully')
+               }
+          });
+}
+
 router.put('/:userId/password', (req, res) => {
      const userId = req.params.userId;
      const oldPassword = req.body.oldPassword;
      const newPassword = req.body.newPassword;
 
      if (validate.isBlank(oldPassword)) {
+          res.statusMessage = 'Error! Old Password is blank.';
           res.status(400).send('Error! Old Password is blank.'); return;
      }
      if (validate.isBlank(newPassword)) {
+          res.statusMessage = 'Error! New Password is blank.';
           res.status(400).send('Error! New Password is blank.'); return;
      }
 
