@@ -2,104 +2,164 @@
 Fill in code to do GET, POST, PUT, DELETE for users table here.
 */
 
-const connection = require("./database");
+const connection = require('./database');
 const validate = require('./validation');
-const express = require("express");
+const express = require('express');
 
 router = express.Router();
 
-router.get("/:userId", (req, res) => {
-  connection.query(
-    `SELECT nric, name, email, mobile, password
+router.get('/:userId', (req, res) => {
+     connection.query(
+          `SELECT name, email, mobile
              FROM users 
              WHERE (user_id = ${req.params.userId})`,
-    (errors, results) => {
-      if (errors) {
-        console.log(errors);
-        res.status(500).send("Error ocurred while querying");
-      } else {
-          if (res.length == 0) {
-              res.status(404).send('Id not found.');
+          (errors, results) => {
+               if (errors) {
+                    console.log(errors);
+                    res.status(500).send('Error ocurred while querying');
+               } else {
+                    if (res.length == 0) {
+                         res.status(404).send('Id not found.');
+                    }
+                    res.send(results);
+               }
           }
-          res.send(results);
-      }
-    }
-  );
+     );
 });
 
-router.post("/", (req, res) => {
-  if (validate.is_blank(req.body.nric)) {
-    res.status(400).send("Error! NRIC is blank.");
-  } else if (validate.is_blank(req.body.name)) {
-    res.status(400).send("Error! Name is blank.");
-  } else if (validate.is_blank(req.body.email)) {
-    res.status(400).send("Error! Email is blank.");
-  } else if (validate.is_blank(req.body.mobile)) {
-    res.status(400).send("Error! Mobile Number is blank.");
-  } else if (validate.is_blank(req.body.password)) {
-    res.status(400).send("Error! Password is blank.");
-  } else {
-    connection.query(
-      `insert into users (nric, name, email, mobile, password) values 
+router.post('/', (req, res) => {
+     if (validate.isBlank(req.body.nric)) {
+          res.status(400).send('Error! NRIC is blank.');
+     } else if (validate.isBlank(req.body.name)) {
+          res.status(400).send('Error! Name is blank.');
+     } else if (validate.isBlank(req.body.email)) {
+          res.status(400).send('Error! Email is blank.');
+     } else if (validate.isBlank(req.body.mobile)) {
+          res.status(400).send('Error! Mobile Number is blank.');
+     } else if (validate.isBlank(req.body.password)) {
+          res.status(400).send('Error! Password is blank.');
+     } else {
+          connection.query(
+               `insert into users (nric, name, email, mobile, password) values 
       ('${req.body.nric}','${req.body.name}','${req.body.email}','${req.body.mobile}', '${req.body.password}')`,
-      (errors, results) => {
-        if (errors) {
-          console.log(errors);
-          res.status(500).send("Error ocurred while querying");
-        } else {
-          res.send("User saved successfully");
-        }
-      }
-    );
-  };
+               (errors, results) => {
+                    if (errors) {
+                         console.log(errors);
+                         res.status(500).send('Error ocurred while querying');
+                    } else {
+                         res.send('User saved successfully');
+                    }
+               }
+          );
+     };
 });
-router.put("/:userId", (req, res) => {
-    if (validate.is_blank(req.body.nric)) {
-      res.status(400).send("Error! NRIC is blank."); return;
-    } 
-    if (validate.is_blank(req.body.name)) {
-      res.status(400).send("Error! Name is blank."); return;
-    }  
-    if (validate.is_blank(req.body.email)) {
-      res.status(400).send("Error! Email is blank."); return;  
-    }  
-    if (validate.is_blank(req.body.mobile)) {
-      res.status(400).send("Error! Mobile is blank."); return;
-    }  
-    if (validate.is_blank(req.body.password)) {
-      res.status(400).send("Error! password is blank."); return;  
-    }
-      connection.query(
-        `UPDATE users SET nric = '${req.body.nric}', name = '${req.body.name}',
-        email = '${req.body.email}', mobile = ${req.body.mobile}, password = '${req.body.password}',
-         WHERE user_id = ${req.params.userId} AND password = '${req.body.password}'`,
-        (errors, results) => {
-          if (errors) {
-            console.log(errors);
-            res.status(400).send("Error ocurred while sending request.");
-          } else {
-            res.send("Data updated successfully");
-          }
-        }
-      );
-    });
 
-router.delete("/:userid", (req, res) => {
-  // if (validate.is_blank(req.params.id)) {
-  //   res.status(400).send("Error! ID is blank");
-  // } else {
-    connection.query(
-      `delete from users where user_id = '${req.params.userId}'`,
-      (errors, results) => {
-        if (errors) {
-          console.log(errors);
-          res.status(500).send("Error ocurred while querying");
-        } else {
-          res.send("User deleted successfully");
-        }
-      }
-    );
-  }
+router.put('/:userId/email', (req, res) => {
+     const userId = req.params.userId;
+     const email = req.body.email;
+
+     if (validate.isBlank(email)) {
+          res.statusMessage = 'Email is blank.';
+          res.status(400).send('Error! Email is blank.'); 
+          return;
+     }
+
+     connection.query(
+          `UPDATE users SET email = ? WHERE user_id = ?`,
+          [email, userId],
+          (errors, results) => {
+               if (errors) {
+                    console.log(errors);
+                    res.status(400).send('Error ocurred while sending request.');
+               } else {
+                    res.send('Email updated successfully')
+               }
+          });
+});
+
+router.put('/:userId/mobile', (req, res) => {
+     const userId = req.params.userId;
+     const mobile = req.body.mobile;
+
+     if (validate.isBlank(mobile)) {
+          res.statusMessage = 'Mobile number is blank.';
+          res.status(400).send('Error! Mobile number is blank.'); 
+          return;
+     }
+
+     connection.query(
+          `UPDATE users SET mobile = ? WHERE user_id = ?`,
+          [mobile, userId],
+          (errors, results) => {
+               if (errors) {
+                    console.log(errors);
+                    res.status(400).send('Error ocurred while sending request.');
+               } else {
+                    res.send('Mobile number updated successfully')
+               }
+          });
+});
+
+router.put('/:userId/password', (req, res) => {
+     const userId = req.params.userId;
+     const oldPassword = req.body.oldPassword;
+     const newPassword = req.body.newPassword;
+
+     if (validate.isBlank(oldPassword)) {
+          res.statusMessage = 'Error! Old Password is blank.';
+          res.status(400).send('Error! Old Password is blank.'); return;
+     }
+     if (validate.isBlank(newPassword)) {
+          res.statusMessage = 'Error! New Password is blank.';
+          res.status(400).send('Error! New Password is blank.'); return;
+     }
+
+     // check whether old password match the record in db
+     connection.query(
+          `SELECT user_id FROM users WHERE (user_id = ?) AND (password = ?)`,
+          [userId, oldPassword],
+          (errors, results) => {
+               if (errors) {
+                    console.log(errors);
+                    res.status(400).send('Error ocurred while sending request.');
+               } else {
+                    if (results.length === 0) {
+                         res.statusMessage = 'Error! old password does not match record';
+                         res.status(400).send();
+                    } else {
+                         // password match, so we can go ahead and update record in db
+                         connection.query(
+                              `UPDATE users SET password = ? WHERE user_id = ?`,
+                              [newPassword, userId],
+                              (errors, results) => {
+                                   if (errors) {
+                                        console.log(errors);
+                                        res.status(400).send('Error ocurred while sending request.');
+                                   } else {
+                                        res.send('Password updated successfully')
+                                   }
+                              });
+                    }
+               }
+          });
+});
+
+router.delete('/:userid', (req, res) => {
+     // if (validate.isBlank(req.params.id)) {
+     //   res.status(400).send('Error! ID is blank');
+     // } else {
+     connection.query(
+          `delete from users where user_id = '${req.params.userId}'`,
+          (errors, results) => {
+               if (errors) {
+                    console.log(errors);
+                    res.status(500).send('Error ocurred while querying');
+               } else {
+                    res.send('User deleted successfully');
+               }
+          }
+     );
+}
 );
 
 module.exports = router;

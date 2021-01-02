@@ -5,7 +5,8 @@ import AccountsCard from './components/AccountsCard';
 import AddAccountModal from './components/AddAccountModal';
 import EditAccountModal from './components/EditAccountModal';
 import DeleteAccountModal from './components/DeleteAccountModal';
-import TransactionsTable from './components/TransactionsTable'
+import TransactionsTable from './components/TransactionsTable';
+import MenuBar from './components/MenuBar';
 
 class App extends React.Component {
      constructor(props) {
@@ -17,6 +18,7 @@ class App extends React.Component {
                cpfAccounts: [],
                institutions: [],
                transactions: [],
+               userDetails: {},
                showAddModal: false,
                showEditModal: false,
                showDelModal: false
@@ -71,8 +73,8 @@ class App extends React.Component {
           fetch(url + this.state.userId)
                .then(response => response.json())
                .then(data => {
-                    data.forEach((d,i,arr) => {
-                         arr[i].date = d.date.replace('T',' ').replace(':00.000Z','');
+                    data.forEach((d, i, arr) => {
+                         arr[i].date = d.date.replace('T', ' ').replace(':00.000Z', '');
                          if (arr[i].type === 'credit') {
                               arr[i].credit = d.amount;
                               arr[i].debit = null;
@@ -85,16 +87,26 @@ class App extends React.Component {
                })
      }
 
+     loadUserDetails() {
+          let url = 'http://localhost:7000/users/';
+
+          fetch(url + this.state.userId)
+               .then(response => response.json())
+               .then(data => this.setState({ userDetails: data[0] }))
+     }
+
      componentDidMount() {
           this.loadAccountsData();
           this.loadInstitutions();
           this.loadTransactions();
+          this.loadUserDetails();
      }
 
      render() {
           return (
                <>
-                    <Jumbotron>
+                    <MenuBar userId={this.state.userId} userDetails={this.state.userDetails} />
+                    <Jumbotron id='home'>
                          <Container>
                               <Row>
                                    <Col>
@@ -134,7 +146,7 @@ class App extends React.Component {
                          </Row>
 
                          {(this.state.bankAccounts.length > 0) ?
-                              <Row className="row-dashboard">
+                              <Row className="row-dashboard" id='banks'>
                                    <Col className="d-flex justify-content-center">
                                         <AccountsCard
                                              id={this.state.userId}
@@ -150,7 +162,7 @@ class App extends React.Component {
                               <div></div>
                          }
                          {(this.state.investmentAccounts.length > 0) ?
-                              <Row className="row-dashboard">
+                              <Row className="row-dashboard" id='investments'>
                                    <Col className="d-flex justify-content-center">
                                         <AccountsCard
                                              id={this.state.userId}
@@ -165,7 +177,7 @@ class App extends React.Component {
                               <div></div>
                          }
                          {(this.state.cpfAccounts.length > 0) ?
-                              <Row className="row-dashboard">
+                              <Row className="row-dashboard" id='cpf'>
                                    <Col className="d-flex justify-content-center">
                                         <AccountsCard
                                              id={this.state.userId}
@@ -182,7 +194,7 @@ class App extends React.Component {
                          }
                          {(this.state.transactions.length > 0) ?
                               <>
-                                   <Row className="row-header">
+                                   <Row className="row-header" id='transactions'>
                                         <Col>
                                              <h2>Transactions</h2>
                                         </Col>
