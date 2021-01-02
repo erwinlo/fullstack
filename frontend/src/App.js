@@ -6,7 +6,7 @@ import AddAccountModal from './components/AddAccountModal';
 import EditAccountModal from './components/EditAccountModal';
 import DeleteAccountModal from './components/DeleteAccountModal';
 import TransactionsTable from './components/TransactionsTable';
-import UserDetails from './components/UserDetails';
+import MenuBar from './components/MenuBar';
 
 class App extends React.Component {
      constructor(props) {
@@ -105,7 +105,7 @@ class App extends React.Component {
      render() {
           return (
                <>
-                    <UserDetails data={this.state.userDetails} />
+                    <MenuBar userId={this.state.userId} userDetails={this.state.userDetails} />
                     <Jumbotron id='home'>
                          <Container>
                               <Row>
@@ -194,12 +194,12 @@ class App extends React.Component {
                          }
                          {(this.state.transactions.length > 0) ?
                               <>
-                                   <Row className="row-header">
+                                   <Row className="row-header" id='transactions'>
                                         <Col>
                                              <h2>Transactions</h2>
                                         </Col>
                                    </Row>
-                                   <Row className="row-dashboard" id='transactions'>
+                                   <Row className="row-dashboard">
                                         <Col className="d-flex justify-content-center">
                                              <TransactionsTable
                                                   data={this.state.transactions}

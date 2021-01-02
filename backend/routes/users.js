@@ -76,7 +76,8 @@ router.put('/:userId/password', (req, res) => {
                     res.status(400).send('Error ocurred while sending request.');
                } else {
                     if (results.length === 0) {
-                         res.status(400).send('Error! old password does not match record');
+                         res.statusMessage = 'Error! old password does not match record';
+                         res.status(400).send();
                     } else {
                          // password match, so we can go ahead and update record in db
                          connection.query(

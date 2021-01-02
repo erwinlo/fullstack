@@ -1,11 +1,12 @@
 body {
     background-color: #fafafa;
 }
-
+.navbar-dark {
+     background-color: #304ffe;
+}
 .jumbotron {
-    /* background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);
-    background-repeat: no-repeat; */
-    background-image: linear-gradient(to right,#007aff, #E1F5FE);
+    background: url('gradient1.jpg') no-repeat;
+    /* background-image: linear-gradient(to right,#007aff, #E1F5FE); */
     padding: 80px 30px 80px 30px;
     margin: 0px;
     color: floralwhite;
