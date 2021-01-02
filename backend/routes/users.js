@@ -28,15 +28,15 @@ router.get('/:userId', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-     if (validate.is_blank(req.body.nric)) {
+     if (validate.isBlank(req.body.nric)) {
           res.status(400).send('Error! NRIC is blank.');
-     } else if (validate.is_blank(req.body.name)) {
+     } else if (validate.isBlank(req.body.name)) {
           res.status(400).send('Error! Name is blank.');
-     } else if (validate.is_blank(req.body.email)) {
+     } else if (validate.isBlank(req.body.email)) {
           res.status(400).send('Error! Email is blank.');
-     } else if (validate.is_blank(req.body.mobile)) {
+     } else if (validate.isBlank(req.body.mobile)) {
           res.status(400).send('Error! Mobile Number is blank.');
-     } else if (validate.is_blank(req.body.password)) {
+     } else if (validate.isBlank(req.body.password)) {
           res.status(400).send('Error! Password is blank.');
      } else {
           connection.query(
@@ -53,39 +53,50 @@ router.post('/', (req, res) => {
           );
      };
 });
-router.put('/:userId', (req, res) => {
-     if (validate.is_blank(req.body.nric)) {
-          res.status(400).send('Error! NRIC is blank.'); return;
+
+router.put('/:userId/password', (req, res) => {
+     const userId = req.params.userId;
+     const oldPassword = req.body.oldPassword;
+     const newPassword = req.body.newPassword;
+
+     if (validate.isBlank(oldPassword)) {
+          res.status(400).send('Error! Old Password is blank.'); return;
      }
-     if (validate.is_blank(req.body.name)) {
-          res.status(400).send('Error! Name is blank.'); return;
+     if (validate.isBlank(newPassword)) {
+          res.status(400).send('Error! New Password is blank.'); return;
      }
-     if (validate.is_blank(req.body.email)) {
-          res.status(400).send('Error! Email is blank.'); return;
-     }
-     if (validate.is_blank(req.body.mobile)) {
-          res.status(400).send('Error! Mobile is blank.'); return;
-     }
-     if (validate.is_blank(req.body.password)) {
-          res.status(400).send('Error! password is blank.'); return;
-     }
+
+     // check whether old password match the record in db
      connection.query(
-          `UPDATE users SET nric = '${req.body.nric}', name = '${req.body.name}',
-        email = '${req.body.email}', mobile = ${req.body.mobile}, password = '${req.body.password}',
-         WHERE user_id = ${req.params.userId} AND password = '${req.body.password}'`,
+          `SELECT user_id FROM users WHERE (user_id = ?) AND (password = ?)`,
+          [userId, oldPassword],
           (errors, results) => {
                if (errors) {
                     console.log(errors);
                     res.status(400).send('Error ocurred while sending request.');
                } else {
-                    res.send('Data updated successfully');
+                    if (results.length === 0) {
+                         res.status(400).send('Error! old password does not match record');
+                    } else {
+                         // password match, so we can go ahead and update record in db
+                         connection.query(
+                              `UPDATE users SET password = ? WHERE user_id = ?`,
+                              [newPassword, userId],
+                              (errors, results) => {
+                                   if (errors) {
+                                        console.log(errors);
+                                        res.status(400).send('Error ocurred while sending request.');
+                                   } else {
+                                        res.send('Password updated successfully')
+                                   }
+                              });
+                    }
                }
-          }
-     );
+          });
 });
 
 router.delete('/:userid', (req, res) => {
-     // if (validate.is_blank(req.params.id)) {
+     // if (validate.isBlank(req.params.id)) {
      //   res.status(400).send('Error! ID is blank');
      // } else {
      connection.query(
