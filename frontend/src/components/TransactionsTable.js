@@ -94,7 +94,6 @@ const TransactionsTable = (props) => {
                                         <tbody {...getTableBodyProps()}>
                                              {page.map((row, i) => {
                                                   prepareRow(row)
-                                                  console.log(row)
                                                   return (
                                                        <tr {...row.getRowProps()}>
                                                             {row.cells.map(cell => {
