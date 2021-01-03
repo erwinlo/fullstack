@@ -15,6 +15,9 @@ var accountsRouter = require('./routes/accounts');
 var institutionsRouter = require('./routes/institutions');
 var mypageRouter = require('./routes/mypage'); //Add THIS LINE - 2
 var usersRouter = require('./routes/users');
+var passwordRouter = require('./routes/password');
+var emailRouter = require('./routes/email');
+var mobileRouter = require('./routes/mobile');
 
 var app = express();
 // view engine setup
@@ -35,22 +38,25 @@ app.use('/transactions', tranRouter);
 app.use('/accounts', accountsRouter);
 app.use('/institutions', institutionsRouter);
 app.use('/mypage', mypageRouter); //Add THIS LINE - 4
-app.use('/users',usersRouter);
+app.use('/users', usersRouter);
+app.use('/password', passwordRouter);
+app.use('/email', emailRouter);
+app.use('/mobile', mobileRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+     next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+     // set locals, only providing error in development
+     res.locals.message = err.message;
+     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+     // render the error page
+     res.status(err.status || 500);
+     res.render('error');
 });
 
 module.exports = app;

@@ -18,7 +18,7 @@ class ChangePasswordModal extends Component {
      onSubmit = () => {
           if (this.handleValidation() === 0) {
 
-               let url = 'http://localhost:7000/users/' + this.props.userId + '/password';
+               let url = 'http://localhost:7000/password/' + this.props.userId;
 
                fetch(url, {
                     method: 'PUT',
@@ -33,9 +33,9 @@ class ChangePasswordModal extends Component {
                     .then(response => {
                          if (response.ok) {
                               this.reset();
-                              this.props.closeModal()
+                              this.props.close()
                          } else {
-                              this.setState({ reply:  response.statusText })
+                              response.json().then(data => { this.setState({ reply: data.message }) })
                          }
                     })
           }
@@ -76,9 +76,15 @@ class ChangePasswordModal extends Component {
           }
 
           // check new password is less than 6 characters.
-          else if (this.state.newPassword.length < 6) {
+          else if (this.state.newPassword.length < 6 || this.state.newPassword.length > 20) {
                error++
-               this.setState({ newPasswordError: 'Password should contain at least 6 characters' })
+               this.setState({ newPasswordError: 'Password should contain 6 to 20 characters' })
+          }
+
+          // check for expected input and length and no spaces
+          else if (!(/^(?=.*[\w])\S{6,20}$/).test(this.state.newPassword)) {
+               error++
+               this.setState({ newPasswordError: 'Password should not contain spaces' })
           }
 
           return error;
@@ -87,7 +93,12 @@ class ChangePasswordModal extends Component {
 
      render() {
           return (
-               <Modal show={this.props.show} onHide={() => this.props.closeModal()} >
+               <Modal show={this.props.show}
+                    onHide={() => {
+                         this.reset();
+                         this.props.close();
+                    }}
+               >
                     <Modal.Header closeButton>
                          <Modal.Title>Change Password</Modal.Title>
                     </Modal.Header>
@@ -134,7 +145,12 @@ class ChangePasswordModal extends Component {
                                         Update
                               </Button>
 
-                                   <Button variant="secondary" onClick={() => this.props.closeModal()}>
+                                   <Button variant="secondary"
+                                        onClick={() => {
+                                             this.reset();
+                                             this.props.close()
+                                        }}
+                                   >
                                         Cancel
                               </Button>
                               </Modal.Footer>
