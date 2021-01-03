@@ -25,11 +25,15 @@ router.post('/:userId', (req, res) => {
         res.status(400).send("Error! Account type must be one of 'savings', 'current', 'fixed_deposit', 'investment'");
         return;
     } 
-    if (validate.isBlank(balance)) {
-        res.status(400).send("Error! Account balance is blank");
+    if (validate.isBlank(balance) || validate.isNegative(balance)) {
+        res.status(400).send("Error! Account balance cannot be blank or negative");
         return;
     }
-    
+    if (validate.notNumber(balance)) {
+        res.status(400).send("Error! Account balance needs to be numeric without any special characters");
+        return;
+    } 
+
     connection.query(
         `INSERT into accounts 
         (institution_id, user_id, account_number, account_type, balance, creation_date, updated_time) 
@@ -62,10 +66,14 @@ router.put('/:userId', (req, res) => {
         res.status(400).send("Error! Account type must be one of 'savings', 'current', 'fixed_deposit', 'investment'");
         return;
     } 
-    if (validate.isBlank(balance)) {
-        res.status(400).send("Error! Account balance is blank");
+    if (validate.isBlank(balance) || validate.isNegative(balance)) {
+        res.status(400).send("Error! Account balance cannot be blank or negative");
         return;
     }
+    if (validate.notNumber(balance)) {
+        res.status(400).send("Error! Account balance needs to be numeric without any special characters");
+        return;
+    } 
     
     connection.query(
         `UPDATE accounts SET institution_id = ${req.body.insti_id}, account_number = '${req.body.ac_number}', 
@@ -88,15 +96,13 @@ router.delete('/:userId', (req, res) => {
         `DELETE from accounts  WHERE user_id = ${req.params.userId} AND account_id = ${req.body.ac_id}`,
         (errors, results) => {
             if (errors) {
-                res.status(400).send('Error occured while sending request.');
-            } else {
-                if (res.length == 0) {
-                    res.status(404).send('Id not found.');
-                }
-                res.send("You have successfully deleted Account ID " + ac_id);
+                res.status(400).send('Error occured while sending request.');  return; 
+            } 
+            if (results.length == 0) {
+                res.status(404).send('Id not found.'); return;
             }
-        }
-    );
+            res.send("You have successfully deleted Account ID " + ac_id);
+        });
 
 });
 
