@@ -100,50 +100,6 @@ router.put('/:userId/mobile', (req, res) => {
           });
 });
 
-router.put('/:userId/password', (req, res) => {
-     const userId = req.params.userId;
-     const oldPassword = req.body.oldPassword;
-     const newPassword = req.body.newPassword;
-
-     if (validate.isBlank(oldPassword)) {
-          res.statusMessage = 'Error! Old Password is blank.';
-          res.status(400).send('Error! Old Password is blank.'); return;
-     }
-     if (validate.isBlank(newPassword)) {
-          res.statusMessage = 'Error! New Password is blank.';
-          res.status(400).send('Error! New Password is blank.'); return;
-     }
-
-     // check whether old password match the record in db
-     connection.query(
-          `SELECT user_id FROM users WHERE (user_id = ?) AND (password = ?)`,
-          [userId, oldPassword],
-          (errors, results) => {
-               if (errors) {
-                    console.log(errors);
-                    res.status(400).send('Error ocurred while sending request.');
-               } else {
-                    if (results.length === 0) {
-                         res.statusMessage = 'Error! old password does not match record';
-                         res.status(400).send();
-                    } else {
-                         // password match, so we can go ahead and update record in db
-                         connection.query(
-                              `UPDATE users SET password = ? WHERE user_id = ?`,
-                              [newPassword, userId],
-                              (errors, results) => {
-                                   if (errors) {
-                                        console.log(errors);
-                                        res.status(400).send('Error ocurred while sending request.');
-                                   } else {
-                                        res.send('Password updated successfully')
-                                   }
-                              });
-                    }
-               }
-          });
-});
-
 router.delete('/:userid', (req, res) => {
      // if (validate.isBlank(req.params.id)) {
      //   res.status(400).send('Error! ID is blank');

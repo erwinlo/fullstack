@@ -18,7 +18,7 @@ class ChangePasswordModal extends Component {
      onSubmit = () => {
           if (this.handleValidation() === 0) {
 
-               let url = 'http://localhost:7000/users/' + this.props.userId + '/password';
+               let url = 'http://localhost:7000/password/' + this.props.userId;
 
                fetch(url, {
                     method: 'PUT',
@@ -35,7 +35,10 @@ class ChangePasswordModal extends Component {
                               this.reset();
                               this.props.close()
                          } else {
-                              this.setState({ reply: response.statusText })
+                              response.json().then(data => {
+                                   console.log(data);
+                                   this.setState({ reply: data.message })
+                              })
                          }
                     })
           }
