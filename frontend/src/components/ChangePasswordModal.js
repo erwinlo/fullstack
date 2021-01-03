@@ -35,10 +35,7 @@ class ChangePasswordModal extends Component {
                               this.reset();
                               this.props.close()
                          } else {
-                              response.json().then(data => {
-                                   console.log(data);
-                                   this.setState({ reply: data.message })
-                              })
+                              response.json().then(data => { this.setState({ reply: data.message }) })
                          }
                     })
           }

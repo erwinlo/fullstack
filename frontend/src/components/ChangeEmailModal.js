@@ -15,7 +15,7 @@ class ChangeEmailModal extends Component {
      onSubmit = () => {
           if (this.handleValidation() === 0) {
 
-               let url = 'http://localhost:7000/users/' + this.props.userId + '/email';
+               let url = 'http://localhost:7000/email/' + this.props.userId;
 
                fetch(url, {
                     method: 'PUT',
@@ -32,7 +32,7 @@ class ChangeEmailModal extends Component {
                               this.props.close();
                               this.props.loadUser();
                          } else {
-                              this.setState({ reply: response.statusText })
+                              response.json().then(data => { this.setState({ reply: data.message }) })
                          }
                     })
           }

@@ -16,6 +16,7 @@ var institutionsRouter = require('./routes/institutions');
 var mypageRouter = require('./routes/mypage'); //Add THIS LINE - 2
 var usersRouter = require('./routes/users');
 var passwordRouter = require('./routes/password');
+var emailRouter = require('./routes/email');
 
 var app = express();
 // view engine setup
@@ -38,6 +39,7 @@ app.use('/institutions', institutionsRouter);
 app.use('/mypage', mypageRouter); //Add THIS LINE - 4
 app.use('/users', usersRouter);
 app.use('/password', passwordRouter);
+app.use('/email', emailRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

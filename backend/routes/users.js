@@ -54,28 +54,7 @@ router.post('/', (req, res) => {
      };
 });
 
-router.put('/:userId/email', (req, res) => {
-     const userId = req.params.userId;
-     const email = req.body.email;
 
-     if (validate.isBlank(email)) {
-          res.statusMessage = 'Email is blank.';
-          res.status(400).send('Error! Email is blank.'); 
-          return;
-     }
-
-     connection.query(
-          `UPDATE users SET email = ? WHERE user_id = ?`,
-          [email, userId],
-          (errors, results) => {
-               if (errors) {
-                    console.log(errors);
-                    res.status(400).send('Error ocurred while sending request.');
-               } else {
-                    res.send('Email updated successfully')
-               }
-          });
-});
 
 router.put('/:userId/mobile', (req, res) => {
      const userId = req.params.userId;
