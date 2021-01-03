@@ -55,30 +55,6 @@ router.post('/', (req, res) => {
 });
 
 
-
-router.put('/:userId/mobile', (req, res) => {
-     const userId = req.params.userId;
-     const mobile = req.body.mobile;
-
-     if (validate.isBlank(mobile)) {
-          res.statusMessage = 'Mobile number is blank.';
-          res.status(400).send('Error! Mobile number is blank.'); 
-          return;
-     }
-
-     connection.query(
-          `UPDATE users SET mobile = ? WHERE user_id = ?`,
-          [mobile, userId],
-          (errors, results) => {
-               if (errors) {
-                    console.log(errors);
-                    res.status(400).send('Error ocurred while sending request.');
-               } else {
-                    res.send('Mobile number updated successfully')
-               }
-          });
-});
-
 router.delete('/:userid', (req, res) => {
      // if (validate.isBlank(req.params.id)) {
      //   res.status(400).send('Error! ID is blank');
