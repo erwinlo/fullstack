@@ -98,7 +98,7 @@ router.delete('/:userId', (req, res) => {
             if (errors) {
                 res.status(400).send('Error occured while sending request.');  return; 
             } 
-            if (results.length == 0) {
+            if (results.affectedRows === 0) {
                 res.status(404).send('Id not found.'); return;
             }
             res.send("You have successfully deleted Account ID " + ac_id);
