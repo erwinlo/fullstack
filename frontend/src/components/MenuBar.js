@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 import ChangePasswordModal from './ChangePasswordModal';
+import ChangeEmailModal from './ChangeEmailModal';
+import ChangeMobileModal from './ChangeMobileModal';
+import Profile from './Profile';
 
 class MenuBar extends Component {
      constructor(props) {
           super(props);
 
           this.state = {
-               isOpen: false
+               isEmailModalOpen: false,
+               isMobileModalOpen: false,
+               isPasswordModalOpen: false
           }
      }
 
-     openModal = () => this.setState({ isOpen: true });
-     closeModal = () => this.setState({ isOpen: false });
+     openEmailModal = () => this.setState({ isEmailModalOpen: true });
+     closeEmailModal = () => this.setState({ isEmailModalOpen: false });
+     openMobileModal = () => this.setState({ isMobileModalOpen: true });
+     closeMobileModal = () => this.setState({ isMobileModalOpen: false });
+     openPasswordModal = () => this.setState({ isPasswordModalOpen: true });
+     closePasswordModal = () => this.setState({ isPasswordModalOpen: false });
 
      render() {
-
-          const profileIcon = (<><i className='fas fa-user-alt'></i> Profile</>);
 
           return (
                <>
@@ -31,31 +38,39 @@ class MenuBar extends Component {
                                         <Nav.Link href="#cpf">CPF</Nav.Link>
                                         <Nav.Link href="#transactions">Transactions</Nav.Link>
                                    </Nav>
-                                   <Nav>
-                                        <NavDropdown title={profileIcon} id='collasible-nav-dropdown'>
-                                             <NavDropdown.Item><h4>{this.props.userDetails.name}</h4></NavDropdown.Item>
-                                             <NavDropdown.Divider />
-                                             <NavDropdown.Item>
-                                                  <div><i className="far fa-envelope"></i> Email:</div>
-                                                  <div>{this.props.userDetails.email}</div>
-                                             </NavDropdown.Item>
-                                             <NavDropdown.Divider />
-                                             <NavDropdown.Item>
-                                                  <div><i className='fas fa-mobile-alt'></i> Mobile no:</div>
-                                                  <div>{this.props.userDetails.mobile}</div>
-                                             </NavDropdown.Item>
-                                             <NavDropdown.Divider />
-                                             <NavDropdown.Item onClick={() => this.openModal()}>Change Password</NavDropdown.Item>
-                                        </NavDropdown>
-                                   </Nav>
+
+                                   <Profile name={this.props.userDetails.name}
+                                        email={this.props.userDetails.email}
+                                        mobile={this.props.userDetails.mobile}
+                                        openEmailModal={() => this.openEmailModal()}
+                                        openMobileModal={() => this.openMobileModal()}
+                                        openPasswordModal={() => this.openPasswordModal()}
+                                   />
+
                               </Navbar.Collapse>
                          </Container>
                     </Navbar>
 
+                    <ChangeEmailModal
+                         userId={this.props.userId}
+                         email={this.props.userDetails.email}
+                         show={this.state.isEmailModalOpen}
+                         close={() => this.closeEmailModal()}
+                         loadUser={() => this.props.loadUser()}
+                    />
+
+                    <ChangeMobileModal
+                         userId={this.props.userId}
+                         mobile={this.props.userDetails.mobile}
+                         show={this.state.isMobileModalOpen}
+                         close={() => this.closeMobileModal()}
+                         loadUser={() => this.props.loadUser()}
+                    />
+
                     <ChangePasswordModal
                          userId={this.props.userId}
-                         show={this.state.isOpen}
-                         closeModal={() => this.closeModal()}
+                         show={this.state.isPasswordModalOpen}
+                         close={() => this.closePasswordModal()}
                     />
                </>
           );

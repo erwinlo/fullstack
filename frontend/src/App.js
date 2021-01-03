@@ -105,7 +105,11 @@ class App extends React.Component {
      render() {
           return (
                <>
-                    <MenuBar userId={this.state.userId} userDetails={this.state.userDetails} />
+                    <MenuBar userId={this.state.userId}
+                         userDetails={this.state.userDetails}
+                         loadUser={() => this.loadUserDetails()}
+                    />
+                    
                     <Jumbotron id='home'>
                          <Container>
                               <Row>

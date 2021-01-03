@@ -33,7 +33,7 @@ class ChangePasswordModal extends Component {
                     .then(response => {
                          if (response.ok) {
                               this.reset();
-                              this.props.closeModal()
+                              this.props.close()
                          } else {
                               this.setState({ reply: response.statusText })
                          }
@@ -96,7 +96,7 @@ class ChangePasswordModal extends Component {
                <Modal show={this.props.show}
                     onHide={() => {
                          this.reset();
-                         this.props.closeModal();
+                         this.props.close();
                     }}
                >
                     <Modal.Header closeButton>
@@ -148,7 +148,7 @@ class ChangePasswordModal extends Component {
                                    <Button variant="secondary"
                                         onClick={() => {
                                              this.reset();
-                                             this.props.closeModal()
+                                             this.props.close()
                                         }}
                                    >
                                         Cancel
