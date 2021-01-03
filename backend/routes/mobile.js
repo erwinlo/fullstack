@@ -12,6 +12,10 @@ router.put('/:userId', (req, res) => {
           res.status(400).send({ message: 'Error! Mobile number is blank.' }); 
           return;
      }
+     if (validate.notNumber(mobile) || mobile.toString().length != 8) {
+          res.status(400).send({ message: 'Error! Mobile number needs to be an 8-digit number.' });
+          return;
+     }
 
      connection.query(
           `UPDATE users SET mobile = ? WHERE user_id = ?`,

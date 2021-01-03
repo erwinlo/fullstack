@@ -16,13 +16,13 @@ router.get('/:userId', (req, res) => {
           (errors, results) => {
                if (errors) {
                     console.log(errors);
-                    res.status(500).send('Error ocurred while querying');
-               } else {
-                    if (res.length == 0) {
-                         res.status(404).send('Id not found.');
-                    }
-                    res.send(results);
+                    res.status(500).send('Error ocurred while querying'); return;
+               } 
+               if (results.length == 0) {
+                    res.status(404).send('Id not found.'); return;
                }
+    
+               res.send(results);
           }
      );
 });

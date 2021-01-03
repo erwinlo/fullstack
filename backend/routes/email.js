@@ -12,6 +12,10 @@ router.put('/:userId', (req, res) => {
           res.status(400).send({ message: 'Error! Email is blank.' }); 
           return;
      }
+     if (validate.invalidEmail(email)) {
+          res.status(400).send({ message: 'Error! Your email id seems to be invalid.' }); 
+          return;
+     }
 
      connection.query(
           `UPDATE users SET email = ? WHERE user_id = ?`,
