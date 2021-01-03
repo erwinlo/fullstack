@@ -76,9 +76,15 @@ class ChangePasswordModal extends Component {
           }
 
           // check new password is less than 6 characters.
-          else if (this.state.newPassword.length < 6) {
+          else if (this.state.newPassword.length < 6 || this.state.newPassword.length > 20) {
                error++
-               this.setState({ newPasswordError: 'Password should contain at least 6 characters' })
+               this.setState({ newPasswordError: 'Password should contain 6 to 20 characters' })
+          }
+
+          // check for expected input and length and no spaces
+          else if (!(/^(?=.*[\w])\S{6,20}$/).test(this.state.newPassword)) {
+               error++
+               this.setState({ newPasswordError: 'Password should not contain spaces' })
           }
 
           return error;
