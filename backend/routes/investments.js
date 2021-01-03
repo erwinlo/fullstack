@@ -20,13 +20,13 @@ router.get('/:userId', (req, res) => {
                AND (acc.account_type IN ('investment'))`,
         (errors, results) => {
             if (errors) {
-                res.status(400).send('Error occured while sending request.');
-            } else {
-                if (res.length == 0) {
-                    res.status(404).send('Id not found.');
-                }
-                res.send(results);
+                res.status(400).send('Error occured while sending request.'); return;
             }
+            if (results.length == 0) {
+                res.status(404).send('Id not found.'); return;
+            }
+        
+            res.send(results);
         }
     );
 

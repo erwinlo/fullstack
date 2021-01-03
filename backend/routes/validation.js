@@ -10,8 +10,19 @@ function isWrong(param) {
   }
 }
 
+function isNegative(param) {
+  return (param < 0)
+}
+
+function notNumber(param){
+  return (typeof param != 'number')
+}
+
+
 module.exports = {
   isBlank: isBlank,
-  isWrong: isWrong
+  isWrong: isWrong,
+  isNegative: isNegative,
+  notNumber: notNumber
 };
 
