@@ -18,6 +18,9 @@ body {
 .row-dashboard {
     padding: 50px 0;
 }
+.row-login {
+     padding: 100px 0;
+}
 
 .row-card {
     padding: 0px;
