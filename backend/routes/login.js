@@ -5,7 +5,7 @@ const { invalidEmail, isBlank } = require('./validation');
 
 router = express.Router();
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
      const email = req.body.email;
      const password = req.body.password;
 
