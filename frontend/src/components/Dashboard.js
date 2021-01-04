@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import Header from './Header';
 import AccountsCard from './AccountsCard';
 import AddAccountModal from './AddAccountModal';
 import EditAccountModal from './EditAccountModal';
@@ -109,16 +110,8 @@ class Dashboard extends React.Component {
                          loadUser={() => this.loadUserDetails()}
                     />
                     
-                    <Jumbotron id='home'>
-                         <Container>
-                              <Row>
-                                   <Col>
-                                        <h1>NUS Ledger</h1>
-                                        <h6>by Erwin Lo, Yeo Theng Hee and Lin Zhenyao</h6>
-                                   </Col>
-                              </Row>
-                         </Container>
-                    </Jumbotron>
+                    <Header />
+
                     <Container>
 
                          <AddAccountModal
