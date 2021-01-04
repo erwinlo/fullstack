@@ -58,6 +58,9 @@ class ChangeMobileModal extends Component {
           if (!(regex.test(this.state.mobile))) {
                error++
                this.setState({ mobileError: 'Mobile number can contain numbers only' })
+          } else if (this.state.mobile.length !== 8) {
+               error++;
+               this.setState({ mobileError: 'Mobile number should be 8 digits' });
           }
 
           return error;

@@ -1,13 +1,5 @@
 function isBlank(param) {
-  return (param == null || param == "")
-}
-
-function isWrong(param) {
-  if (param == 'savings' || param == 'current' || param == 'fixed_deposit' || param == 'investment') {
-    return false;
-  } else {
-    return true;
-  }
+  return (param === null || param === '')
 }
 
 function isNegative(param) {
@@ -27,12 +19,16 @@ function invalidEmail(param) {
   }
 }
 
+function validPassword(param) {
+     return (/^(?=.*[\w])\S{6,20}$/).test(param);
+}
+
 
 module.exports = {
   isBlank: isBlank,
-  isWrong: isWrong,
   isNegative: isNegative,
   notNumber: notNumber, 
-  invalidEmail: invalidEmail
+  invalidEmail: invalidEmail,
+  validPassword: validPassword
 };
 

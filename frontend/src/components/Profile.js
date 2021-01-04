@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, NavDropdown } from 'react-bootstrap';
+import { NavDropdown } from 'react-bootstrap';
 
 const Profile = ({ name, email, mobile, openEmailModal, openMobileModal, openPasswordModal }) => {
      const profileIcon = (<><i className='fas fa-user-alt'></i> Profile</>);

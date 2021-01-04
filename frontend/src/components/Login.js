@@ -23,11 +23,11 @@ class Login extends Component {
           const { isBlank, invalidEmail } = require('../validation');
 
           if (isBlank(this.state.email)) {
-               this.setState({ errorMsg: 'Error! Email is Blank' });
+               this.setState({ errorMsg: 'Please enter your email address' });
                return false;
           }
           if (isBlank(this.state.password)) {
-               this.setState({ errorMsg: 'Error! Password is Blank' });
+               this.setState({ errorMsg: 'Please enter your password' });
                return false;
           }
           if (invalidEmail(this.state.email)) {

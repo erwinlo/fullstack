@@ -110,7 +110,7 @@ class Dashboard extends React.Component {
                          loadUser={() => this.loadUserDetails()}
                          logout={() => this.props.logout()}
                     />
-                    
+
                     <Header />
 
                     <Container>
@@ -142,22 +142,20 @@ class Dashboard extends React.Component {
                               </Col>
                          </Row>
 
-                         {(this.state.bankAccounts.length > 0) ?
-                              <Row className="row-dashboard" id='banks'>
-                                   <Col className="d-flex justify-content-center">
-                                        <AccountsCard
-                                             id={this.state.userId}
-                                             // ref={this.bankAccounts}
-                                             title='Bank Accounts'
-                                             data={this.state.bankAccounts}
-                                             openAddAccModal={() => this.addAccModal.current.openModal()}
-                                             openEditAccModal={(data) => this.editAccModal.current.openModal(data, 'bank')}
-                                             openDelAccModal={(data) => this.delAccModal.current.openModal(data)}
-                                        />
-                                   </Col>
-                              </Row> :
-                              <div></div>
-                         }
+                         <Row className="row-dashboard" id='banks'>
+                              <Col className="d-flex justify-content-center">
+                                   <AccountsCard
+                                        id={this.state.userId}
+                                        // ref={this.bankAccounts}
+                                        title='Bank Accounts'
+                                        data={this.state.bankAccounts}
+                                        openAddAccModal={() => this.addAccModal.current.openModal()}
+                                        openEditAccModal={(data) => this.editAccModal.current.openModal(data, 'bank')}
+                                        openDelAccModal={(data) => this.delAccModal.current.openModal(data)}
+                                   />
+                              </Col>
+                         </Row>
+
                          {(this.state.investmentAccounts.length > 0) ?
                               <Row className="row-dashboard" id='investments'>
                                    <Col className="d-flex justify-content-center">
