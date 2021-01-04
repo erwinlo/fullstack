@@ -12,7 +12,7 @@ class Dashboard extends React.Component {
      constructor(props) {
           super(props);
           this.state = {
-               userId: 2,
+               userId: this.props.id,
                bankAccounts: [],
                investmentAccounts: [],
                cpfAccounts: [],
@@ -108,6 +108,7 @@ class Dashboard extends React.Component {
                     <MenuBar userId={this.state.userId}
                          userDetails={this.state.userDetails}
                          loadUser={() => this.loadUserDetails()}
+                         logout={() => this.props.logout()}
                     />
                     
                     <Header />

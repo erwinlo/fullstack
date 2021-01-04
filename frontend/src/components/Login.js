@@ -8,7 +8,10 @@ class Login extends Component {
           super(props);
 
           this.state = {
-               isNewAccountOpen: false
+               isNewAccountOpen: false,
+               email: '',
+               password: '',
+               errorMsg: ''
           }
      }
 
@@ -17,7 +20,26 @@ class Login extends Component {
      }
 
      handleLogin() {
-          // toggle();
+          let url = 'http://localhost:7000/login';
+
+          fetch(url, {
+               method: 'POST',
+               headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+               },
+               body: JSON.stringify({
+                    email: this.state.email,
+                    password: this.state.password
+               })
+          }).then(response => {
+               if (response.ok) {
+                    response.json().then(data => this.props.login(data.user_id));
+               } else {
+                    response.json().then(data => { this.setState({ errorMsg: data.message }) })
+               }
+          })
+
+
      }
 
      render() {
@@ -38,16 +60,18 @@ class Login extends Component {
                                              <Form>
 
                                                   <Form.Group as={Row} controlId="email">
-                                                       {/* <Form.Label column sm="4">Email</Form.Label> */}
                                                        <Col>
-                                                            <Form.Control size='lg' placeholder='Email address' />
+                                                            <Form.Control size='lg' placeholder='Email address'
+                                                                 onChange={e => this.setState({ email: e.target.value })}
+                                                            />
                                                        </Col>
                                                   </Form.Group>
 
                                                   <Form.Group as={Row} controlId="password">
-                                                       {/* <Form.Label column sm="4">Password</Form.Label> */}
                                                        <Col>
-                                                            <Form.Control size='lg' placeholder='Password' />
+                                                            <Form.Control type='password' size='lg' placeholder='Password'
+                                                                 onChange={e => this.setState({ password: e.target.value })}
+                                                            />
                                                        </Col>
                                                   </Form.Group>
 
@@ -55,8 +79,11 @@ class Login extends Component {
 
                                              </Form>
 
-                                             <Row className='mt-3 d-flex justify-content-center'>
-                                                  <a href='#'>Forgotten password?</a>
+                                             <Row className='mt-3'>
+                                                  <Col>
+                                                  <p className='text-center validation-error'>{this.state.errorMsg}</p>
+                                                  <p className='text-center'><a href='#'>Forgotten password?</a></p>
+                                                  </Col>
                                              </Row>
 
                                              <hr />
