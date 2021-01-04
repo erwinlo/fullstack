@@ -18,6 +18,7 @@ var usersRouter = require('./routes/users');
 var passwordRouter = require('./routes/password');
 var emailRouter = require('./routes/email');
 var mobileRouter = require('./routes/mobile');
+var loginRouter = require('./routes/login');
 
 var app = express();
 // view engine setup
@@ -42,6 +43,7 @@ app.use('/users', usersRouter);
 app.use('/password', passwordRouter);
 app.use('/email', emailRouter);
 app.use('/mobile', mobileRouter);
+app.use('/login', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

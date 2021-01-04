@@ -17,7 +17,7 @@ class NewAccount extends Component {
                     </Modal.Header>
                     <Modal.Body>
                          <Form>
-                         <Form.Group as={Row} controlId="fullname">
+                              <Form.Group as={Row} controlId="fullname">
                                    <Col>
                                         <Form.Control size='lg' placeholder='Full Name' />
                                    </Col>
