@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+import ForgotPassword from './ForgotPassword';
 import Header from './Header';
 import NewAccount from './NewAccountModal';
 
@@ -9,6 +10,7 @@ class Login extends Component {
 
           this.state = {
                isNewAccountOpen: false,
+               isForgottenPasswordOpen: false,
                email: '',
                password: '',
                errorMsg: ''
@@ -71,6 +73,10 @@ class Login extends Component {
                          close={() => this.closeNewAccountModal()}
                     />
 
+                    <ForgotPassword show={this.state.isForgottenPasswordOpen}
+                         close={() => this.setState({ isForgottenPasswordOpen: false })}
+                    />
+
                     <Container>
                          <Row className="row-login">
                               <Col className="d-flex justify-content-center">
@@ -101,7 +107,7 @@ class Login extends Component {
                                              <Row className='mt-3'>
                                                   <Col>
                                                        <p className='text-center validation-error'>{this.state.errorMsg}</p>
-                                                       <p className='text-center'><a href='#'>Forgotten password?</a></p>
+                                                       <p className='text-center'><Button variant='link' onClick={() => this.setState({ isForgottenPasswordOpen: true })}>Forgotten password?</Button></p>
                                                   </Col>
                                              </Row>
 
