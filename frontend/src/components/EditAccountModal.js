@@ -29,13 +29,13 @@ export default class EditAccountModal extends React.Component {
 
           switch (category) {
                case 'bank':
-                    this.setState({ types: ['savings', 'current', 'fixed_deposit'] });
+                    this.setState({ types: ['Savings', 'Current', 'Fixed_deposit'] });
                     break;
                case 'investment':
-                    this.setState({ types: ['investment'] });
+                    this.setState({ types: ['Investment'] });
                     break;
                case 'cpf':
-                    this.setState({ types: ['cpf_oa', 'cpf_sa', 'cpf_ma'] });
+                    this.setState({ types: ['Ordinary Account', 'Special Account', 'Medisave Account'] });
                     break;
                default:
           }
@@ -95,7 +95,7 @@ export default class EditAccountModal extends React.Component {
           }
 
           // check balance
-          if (!(/^\d+\.\d+$/).test(this.state.balance)) {
+          if (!(/^\d+\.?\d*$/).test(this.state.balance)) {
                error++;
                this.setState({ balanceError: 'Balance must contain numbers(0-9) only' })
           }

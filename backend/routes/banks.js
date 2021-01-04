@@ -17,7 +17,7 @@ router.get('/:userId', (req, res) => {
                LEFT JOIN institutions AS insti 
                ON acc.institution_id = insti.institution_id 
                WHERE (acc.user_id = ${req.params.userId}) 
-               AND (acc.account_type IN ('savings','current','fixed_deposit'))`,
+               AND (acc.account_type IN ('Savings','Current','Fixed Deposit'))`,
         (errors, results) => {
             if (errors) {
                 res.status(400).send('Error occured while sending request.'); return;

@@ -3,7 +3,7 @@ function isBlank(param) {
 }
 
 function isWrong(param) {
-  if (param == 'savings' || param == 'current' || param == 'fixed_deposit' || param == 'investment') {
+  if (param == 'Savings' || param == 'Current' || param == 'Fixed Deposit' || param == 'Investment') {
     return false;
   } else {
     return true;
@@ -15,7 +15,7 @@ function isNegative(param) {
 }
 
 function notNumber(param){
-  return (typeof param != 'number')
+  return (typeof parseFloat(param) != 'number')
 }
 
 function invalidEmail(param) {

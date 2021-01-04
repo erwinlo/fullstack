@@ -13,6 +13,8 @@ router = express.Router();
 router.post('/:userId', (req, res) => {
     ac_number = req.body.ac_number;  insti_id = req.body.insti_id;  
     ac_type = req.body.ac_type;     balance = req.body.balance;
+
+    console.log(ac_number, insti_id, ac_type, balance);
        
     // validate the parameters
     if (validate.isBlank(insti_id)) {
@@ -22,7 +24,7 @@ router.post('/:userId', (req, res) => {
         res.status(400).send("Error! Account No is blank"); return;
     }
     if (validate.isWrong(ac_type)) {
-        res.status(400).send("Error! Account type must be one of 'savings', 'current', 'fixed_deposit', 'investment'");
+        res.status(400).send("Error! Account type must be one of 'Savings', 'Current', 'Fixed Deposit', 'Investment'");
         return;
     } 
     if (validate.isBlank(balance) || validate.isNegative(balance)) {
@@ -63,7 +65,7 @@ router.put('/:userId', (req, res) => {
         res.status(400).send("Error! Account No is blank"); return;
     }
     if (validate.isWrong(ac_type)) {
-        res.status(400).send("Error! Account type must be one of 'savings', 'current', 'fixed_deposit', 'investment'");
+        res.status(400).send("Error! Account type must be one of 'Savings', 'Current', 'Fixed Deposit', 'Investment'");
         return;
     } 
     if (validate.isBlank(balance) || validate.isNegative(balance)) {

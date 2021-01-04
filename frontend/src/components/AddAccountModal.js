@@ -125,10 +125,10 @@ export default class AddAccountModal extends React.Component {
                                              onChange={e => this.setState({ ac_type: e.target.value })}
                                         >
                                              <option value="0">Choose...</option>
-                                             <option value="savings">Savings</option>
-                                             <option value="current">Current</option>
-                                             <option value="fixed_deposit">Fixed Deposit</option>
-                                             <option value="investment">Investment</option>
+                                             <option value="Savings">Savings</option>
+                                             <option value="Current">Current</option>
+                                             <option value="Fixed Deposit">Fixed Deposit</option>
+                                             <option value="Investment">Investment</option>
                                         </Form.Control>
                                         <span className='validation-error'>{this.state.accTypeError}</span>
                                    </Col>
