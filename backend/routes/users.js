@@ -3,7 +3,7 @@ Fill in code to do GET, POST, PUT, DELETE for users table here.
 */
 
 const connection = require('./database');
-const { isBlank } = require('./validation');
+const { isBlank, invalidEmail } = require('./validation');
 const express = require('express');
 
 router = express.Router();
@@ -39,12 +39,19 @@ router.post('/', (req, res) => {
      }
      if (isBlank(email)) {
           res.status(400).send({ message: 'Error! Email is blank.' });
+          return;
+     }
+     if (invalidEmail(email)) {
+          res.status(400).send({ message: 'Error! Invalid Email format.' });
+          return;
      }
      if (isBlank(mobile)) {
           res.status(400).send({ message: 'Error! Mobile Number is blank.' });
+          return;
      }
      if (isBlank(password)) {
           res.status(400).send({ message: 'Error! Password is blank.' });
+          return;
      }
 
      connection.query(
@@ -53,9 +60,9 @@ router.post('/', (req, res) => {
           (errors, results) => {
                if (errors) {
                     console.log(errors);
-                    res.status(500).send('Error ocurred while querying');
+                    res.status(500).send({ message: 'Error ocurred while querying' });
                } else {
-                    res.send('User saved successfully');
+                    res.send({ message: 'User saved successfully' });
                }
           }
      );
@@ -64,17 +71,14 @@ router.post('/', (req, res) => {
 
 
 router.delete('/:userid', (req, res) => {
-     // if (validate.isBlank(req.params.id)) {
-     //   res.status(400).send('Error! ID is blank');
-     // } else {
      connection.query(
           `delete from users where user_id = '${req.params.userId}'`,
           (errors, results) => {
                if (errors) {
                     console.log(errors);
-                    res.status(500).send('Error ocurred while querying');
+                    res.status(500).send({ message: 'Error ocurred while querying' });
                } else {
-                    res.send('User deleted successfully');
+                    res.send({ message: 'User deleted successfully' });
                }
           }
      );
