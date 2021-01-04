@@ -3,6 +3,31 @@ import { Modal, Form, Row, Col, Button } from 'react-bootstrap';
 
 class NewAccount extends Component {
 
+     onSubmit = () => {
+          // if (this.handleValidation() === 0) {
+
+          //      this.closeModal();
+
+          //      let url = 'http://localhost:7000/users/';
+
+          //      fetch(url + this.state.userId, {
+          //           method: 'POST',
+          //           headers: {
+          //                'Content-Type': 'application/json;charset=utf-8'
+          //           },
+          //           body: JSON.stringify({
+          //                insti_id: this.state.insti_id,
+          //                ac_type: this.state.ac_type,
+          //                ac_number: this.state.ac_number,
+          //                balance: this.state.balance
+          //           })
+          //      })
+          //           .then(() => this.props.reload());
+
+          //      this.reset();
+          // }
+     }
+
      render() {
           return (
                <Modal
@@ -48,7 +73,8 @@ class NewAccount extends Component {
                               </Row>
 
                               <Row className='d-flex justify-content-center'>
-                                   <Button variant='success' size='lg'>
+                                   <Button variant='success' size='lg'
+                                        onClick={() => this.onSubmit()}>
                                         <h5>Sign Up</h5>
                                    </Button>
                               </Row>

@@ -3,7 +3,7 @@ Fill in code to do GET, POST, PUT, DELETE for users table here.
 */
 
 const connection = require('./database');
-const validate = require('./validation');
+const { isBlank } = require('./validation');
 const express = require('express');
 
 router = express.Router();
@@ -17,41 +17,49 @@ router.get('/:userId', (req, res) => {
                if (errors) {
                     console.log(errors);
                     res.status(500).send('Error ocurred while querying'); return;
-               } 
+               }
                if (results.length == 0) {
                     res.status(404).send('Id not found.'); return;
                }
-    
+
                res.send(results);
           }
      );
 });
 
 router.post('/', (req, res) => {
-     if (validate.isBlank(req.body.nric)) {
-          res.status(400).send('Error! NRIC is blank.');
-     } else if (validate.isBlank(req.body.name)) {
-          res.status(400).send('Error! Name is blank.');
-     } else if (validate.isBlank(req.body.email)) {
-          res.status(400).send('Error! Email is blank.');
-     } else if (validate.isBlank(req.body.mobile)) {
-          res.status(400).send('Error! Mobile Number is blank.');
-     } else if (validate.isBlank(req.body.password)) {
-          res.status(400).send('Error! Password is blank.');
-     } else {
-          connection.query(
-               `insert into users (nric, name, email, mobile, password) values 
-      ('${req.body.nric}','${req.body.name}','${req.body.email}','${req.body.mobile}', '${req.body.password}')`,
-               (errors, results) => {
-                    if (errors) {
-                         console.log(errors);
-                         res.status(500).send('Error ocurred while querying');
-                    } else {
-                         res.send('User saved successfully');
-                    }
+     const name = req.body.name;
+     const email = req.body.email;
+     const mobile = req.body.mobile;
+     const password = req.body.password;
+
+     if (isBlank(name)) {
+          res.status(400).send({ message: 'Error! Name is blank.' });
+          return;
+     }
+     if (isBlank(email)) {
+          res.status(400).send({ message: 'Error! Email is blank.' });
+     }
+     if (isBlank(mobile)) {
+          res.status(400).send({ message: 'Error! Mobile Number is blank.' });
+     }
+     if (isBlank(password)) {
+          res.status(400).send({ message: 'Error! Password is blank.' });
+     }
+
+     connection.query(
+          `INSERT INTO users (name, email, mobile, password) VALUES (?, ?, ?, ?)`,
+          [name, email, mobile, password],
+          (errors, results) => {
+               if (errors) {
+                    console.log(errors);
+                    res.status(500).send('Error ocurred while querying');
+               } else {
+                    res.send('User saved successfully');
                }
-          );
-     };
+          }
+     );
+
 });
 
 
