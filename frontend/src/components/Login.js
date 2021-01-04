@@ -19,27 +19,46 @@ class Login extends Component {
           this.setState({ isNewAccountOpen: false });
      }
 
+     doValidation() {
+          const { isBlank, invalidEmail } = require('../validation');
+
+          if (isBlank(this.state.email)) {
+               this.setState({ errorMsg: 'Error! Email is Blank' });
+               return false;
+          }
+          if (isBlank(this.state.password)) {
+               this.setState({ errorMsg: 'Error! Password is Blank' });
+               return false;
+          }
+          if (invalidEmail(this.state.email)) {
+               this.setState({ errorMsg: 'Invalid Email format' });
+               return false;
+          }
+
+          return true;
+     }
+
      handleLogin() {
-          let url = 'http://localhost:7000/login';
+          if (this.doValidation()) {
+               let url = 'http://localhost:7000/login';
 
-          fetch(url, {
-               method: 'POST',
-               headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-               },
-               body: JSON.stringify({
-                    email: this.state.email,
-                    password: this.state.password
+               fetch(url, {
+                    method: 'POST',
+                    headers: {
+                         'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                         email: this.state.email,
+                         password: this.state.password
+                    })
+               }).then(response => {
+                    if (response.ok) {
+                         response.json().then(data => this.props.login(data.user_id));
+                    } else {
+                         response.json().then(data => { this.setState({ errorMsg: data.message }) })
+                    }
                })
-          }).then(response => {
-               if (response.ok) {
-                    response.json().then(data => this.props.login(data.user_id));
-               } else {
-                    response.json().then(data => { this.setState({ errorMsg: data.message }) })
-               }
-          })
-
-
+          }
      }
 
      render() {
@@ -81,8 +100,8 @@ class Login extends Component {
 
                                              <Row className='mt-3'>
                                                   <Col>
-                                                  <p className='text-center validation-error'>{this.state.errorMsg}</p>
-                                                  <p className='text-center'><a href='#'>Forgotten password?</a></p>
+                                                       <p className='text-center validation-error'>{this.state.errorMsg}</p>
+                                                       <p className='text-center'><a href='#'>Forgotten password?</a></p>
                                                   </Col>
                                              </Row>
 

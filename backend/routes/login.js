@@ -32,7 +32,7 @@ router.post('/', (req, res) => {
                     return;
                }
                if (results.length == 0) {
-                    res.status(404).send({ message: 'Wrong email/password combination' });
+                    res.status(400).send({ message: 'Wrong email/password combination' });
                     return;
                }
 
