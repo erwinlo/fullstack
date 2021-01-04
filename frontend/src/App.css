@@ -95,3 +95,6 @@ tr:hover .btn-row {
      font-size: x-small;
      color: red;
 }
+.login-box {
+     width: 450px;
+}

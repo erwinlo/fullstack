@@ -8,12 +8,17 @@ class App extends React.Component {
           super(props);
 
           this.state = {
+               userId: null,
                isLoggedIn: false
           }
      }
 
-     toggleLogin() {
-          this.setState({ isLoggedIn: !this.state.isLoggedIn })
+     logout() {
+          this.setState({ isLoggedIn: false })
+     }
+
+     login(id) {
+          this.setState({ userId: id, isLoggedIn: true })
      }
 
      render() {
@@ -21,9 +26,11 @@ class App extends React.Component {
           return (
                <>
                     {(this.state.isLoggedIn) ?
-                         <Dashboard toggle={() => this.toggleLogin()} />
+                         <Dashboard logout={() => this.logout()}
+                              id={this.state.userId}
+                         />
                          :
-                         <Login toggle={() => this.toggleLogin()} />
+                         <Login login={(id) => this.login(id)} />
                     }
                </>
           )

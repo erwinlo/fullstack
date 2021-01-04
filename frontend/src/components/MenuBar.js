@@ -39,14 +39,17 @@ class MenuBar extends Component {
                                         <Nav.Link href="#transactions">Transactions</Nav.Link>
                                    </Nav>
 
-                                   <Profile name={this.props.userDetails.name}
-                                        email={this.props.userDetails.email}
-                                        mobile={this.props.userDetails.mobile}
-                                        openEmailModal={() => this.openEmailModal()}
-                                        openMobileModal={() => this.openMobileModal()}
-                                        openPasswordModal={() => this.openPasswordModal()}
-                                   />
+                                   <Nav>
+                                        <Profile name={this.props.userDetails.name}
+                                             email={this.props.userDetails.email}
+                                             mobile={this.props.userDetails.mobile}
+                                             openEmailModal={() => this.openEmailModal()}
+                                             openMobileModal={() => this.openMobileModal()}
+                                             openPasswordModal={() => this.openPasswordModal()}
+                                        />
 
+                                        <Nav.Link onClick={() => this.props.logout()}>Logout</Nav.Link>
+                                   </Nav>
                               </Navbar.Collapse>
                          </Container>
                     </Navbar>
