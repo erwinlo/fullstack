@@ -28,6 +28,8 @@ router.get('/:userId', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+     console.log('body:', req.body);
+
      const name = req.body.name;
      const email = req.body.email;
      const mobile = req.body.mobile;
@@ -71,6 +73,8 @@ router.post('/', (req, res) => {
 
 
 router.delete('/:userid', (req, res) => {
+     console.log('body:', req.body);
+     
      connection.query(
           `delete from users where user_id = '${req.params.userId}'`,
           (errors, results) => {

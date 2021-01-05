@@ -14,7 +14,7 @@ router.post('/:userId', (req, res) => {
     ac_number = req.body.ac_number;  insti_id = req.body.insti_id;  
     ac_type = req.body.ac_type;     balance = req.body.balance;
 
-    console.log(ac_number, insti_id, ac_type, balance);
+    console.log('body:', req.body);
        
     // validate the parameters
     if (validate.isBlank(insti_id)) {
@@ -54,6 +54,8 @@ router.post('/:userId', (req, res) => {
 
 
 router.put('/:userId', (req, res) => {
+     console.log('body:', req.body);
+
     ac_number = req.body.ac_number;  insti_id = req.body.insti_id;  
     ac_type = req.body.ac_type;     balance = req.body.balance; 
      
@@ -93,6 +95,8 @@ router.put('/:userId', (req, res) => {
 
 
 router.delete('/:userId', (req, res) => {
+     console.log('body:', req.body);
+     
     ac_id = req.body.ac_id;
     connection.query(
         `DELETE from accounts  WHERE user_id = ${req.params.userId} AND account_id = ${req.body.ac_id}`,

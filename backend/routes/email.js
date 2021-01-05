@@ -5,6 +5,8 @@ const express = require('express');
 router = express.Router();
 
 router.put('/:userId', (req, res) => {
+     console.log('body:', req.body);
+     
      const userId = req.params.userId;
      const email = req.body.email;
 
